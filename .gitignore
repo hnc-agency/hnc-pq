@@ -1,0 +1,10 @@
+.erlang.mk/
+.hnc_pq.plt
+*.d
+deps
+ebin
+test/*.beam
+doc/*.html
+doc/edoc-info
+doc/erlang.png
+doc/stylesheet.css

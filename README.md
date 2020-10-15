@@ -1,1 +1,3 @@
-# hnc-pq
+# hnc-pq - Erlang priority queues
+
+
