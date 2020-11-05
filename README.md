@@ -1,5 +1,12 @@
 # hnc-pq - Erlang priority queues
 
+ :link: [API documentation (EDoc)](//hnc-agency.github.io/hnc-pq)
+
+`hnc-pq` implements priority queues, built on
+regular Erlang queues.
+
+## Usage Example
+
 ```erlang
 %% Create a new hnc_pq instance with
 %% 3 priorities: high, normal, and low
@@ -32,3 +39,26 @@ PQ3=hnc_pq:in(low, item_low, PQ2).
 %% All queues are now empty.
 empty=hnc_pq:out(PQ6).
 ```
+
+## Usage as a dependency
+
+### `Erlang.mk`
+
+```
+DEPS = hnc_pq
+dep_hnc_pq = git https://github.com/hnc-agency/hnc-pq 0.1.1
+```
+
+### `rebar3`
+
+```
+{deps, [
+    {hnc, ".*", {git, "https://github.com/hnc-agency/hnc-pq",
+                   {tag, "0.1.1"}}}
+]}.
+```
+
+## Authors
+
+* Maria Scott (`Maria-12648430`)
+* Jan Uhlig (`juhlig`)
