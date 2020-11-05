@@ -1,0 +1,25 @@
+name: Erlang CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: erlang:23.1
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Compile
+      run: make
+    - name: Run tests
+      run: make tests
+    - name: Run dialyzer
+      run: make dialyze
