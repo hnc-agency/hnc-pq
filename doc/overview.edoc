@@ -1,0 +1,87 @@
+@author Maria Scott <maria-12648430@gmx.net>
+@author Jan Uhlig <j.uhlig@mailingwork.de>
+@copyright 2020 Maria Scott, Jan Uhlig
+@version 0.1.1
+@title hnc-pq - Erlang Priority Queues
+@doc `hnc-pq' is an implementation of priority queues, building on regular
+Erlang queues.
+
+Basically, a `hnc-pq' priority queue consists of a set of <em>priorities</em>,
+which can be any Erlang term, and <em>priority subqueues</em> for each
+priority.
+
+<hr />
+
+The order of priorities is determined by the order in which they appear in the
+priorities list given to ' hnc_pq:new/1', not by term ordering.
+
+Example:
+```
+hnc_pq:new([foo, 1, bar]).
+'''
+The priority queue created by this call has 3 priorities, with `foo' being the
+highest, `1' the second-highest, and `bar' being the lowest priority.
+
+<hr />
+
+While the usual <em>queue order</em> (front to rear) applies to the priority
+subqueues (therefore, referred to by the term <em>priority subqueue order</em>
+or just <em>subqueue order</em> in this context), the concept of priority
+queues neccesitates the definition of <em>priority queue order</em>, meaning
+that items in higher priority subqueues rank higher than items in lower
+priority subqueues, ie the <em>front</em> of a priority queue is the item at
+the front of the highest-priority non-empty subqueue, and the <em>rear</em>
+of a priority queue is the item at the rear of the lowest priority subqueue.
+
+All functions in which execution order may matter traverse in priority queue
+order.
+
+Example:
+
+Assume a priority queue with priorities `a', `b' and `c' (in that order).
+
+If we enqueue items `b1' and `b2' with priority `b', those two items are
+the respective front and rear items of the `b' subqueue, and at the same
+time the front and rear items of the priority queue.
+
+If we now enqueue items `a1' and `a2' with priority `a', those items become
+the respective front and rear items of the `a' subqueue, but now the front
+item of the priority queue is the item `a1', while `b2' stayed the rear
+item of the priority queue.
+
+Finally, if we enqueue two more items `c1' and `c2' with priority `c',
+those two items become the respective front and rear items of the `c'
+subqueue, but now the rear item of the priority queue is the item `c2',
+while `a1' stayed the front item of the priority queue.
+
+<hr />
+
+Many functions come in three flavors. The examples given below assume a
+priority queue `PQ' with priorities `a', `b', and `c', and items `a1',
+`a2', `b1', `b2', `c1', and `c2' in them.
+<ul>
+  <li>Processing an entire priority queue.
+```
+> hnc_pq:out(PQ).
+{a1, ...}
+> hnc_pq:out_r(PQ).
+{c2, ...}
+'''
+      </li>
+  <li>Processing only one specific priority subqueue.
+```
+> hnc_pq:out(b, PQ).
+{b1, ...}
+> hnc_pq:out_r(b, PQ).
+{b2, ...}
+'''
+      </li>
+  <li>Processing a range of priority subqueues.
+```
+> hnc_pq:out(b, c, PQ).
+{b1, ...}
+> hnc_pq:out_r(a, b, PQ).
+{b2, ...}
+'''
+      </li>
+</ul>

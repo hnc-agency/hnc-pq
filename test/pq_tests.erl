@@ -668,21 +668,17 @@ out_r_test() ->
 	ok.
 
 join_test() ->
-	?assertError(badarg, hnc_pq:join(bar, foo, queue:new())),
-	?assertError(badarg, hnc_pq:join(x, hnc_pq:new([a]), queue:new())),
-	?assertError(badarg, hnc_pq:join(x, queue:new(), hnc_pq:new([a]))),
-	?assertError(badarg, hnc_pq:join(a, hnc_pq:new([a]), foo)),
-	?assertError(badarg, hnc_pq:join(a, foo, hnc_pq:new([a]))),
-	?assertError(badarg, hnc_pq:join(hnc_pq:new([a]), hnc_pq:new([b]))),
-	?assertError(badarg, hnc_pq:join(hnc_pq:new([a, b]), hnc_pq:new([b, a]))),
+	?assertError(badarg, hnc_pq:join(foo, bar)),
+	?assertError(badarg, hnc_pq:join(hnc_pq:new([a]), foo)),
+	?assertError(badarg, hnc_pq:join(foo, hnc_pq:new([a]))),
 
 	lists:foreach(
-		fun ({{A1, B1, C1}, {A2, B2, C2}}) ->
-			PQ1=hnc_pq:from_list([{a, A1}, {b, B1}, {c, C1}]),
-			PQ2=hnc_pq:from_list([{a, A2}, {b, B2}, {c, C2}]),
+		fun ({{A1, B1, X}, {A2, B2, Y}}) ->
+			PQ1=hnc_pq:from_list([{a, A1}, {b, B1}, {x, X}]),
+			PQ2=hnc_pq:from_list([{a, A2}, {b, B2}, {y, Y}]),
 
-			?assertEqual([{a, A1++A2}, {b, B1++B2}, {c, C1++C2}], hnc_pq:to_list(hnc_pq:join(PQ1, PQ2))),
-			?assertEqual([{a, A2++A1}, {b, B2++B1}, {c, C2++C1}], hnc_pq:to_list(hnc_pq:join(PQ2, PQ1)))
+			?assertEqual([{a, A1++A2}, {b, B1++B2}, {x, X}, {y, Y}], hnc_pq:to_list(hnc_pq:join(PQ1, PQ2))),
+			?assertEqual([{a, A2++A1}, {b, B2++B1}, {y, Y}, {x, X}], hnc_pq:to_list(hnc_pq:join(PQ2, PQ1)))
 		end,
 		[
 			{{T1, T2, T3}, {T4, T5, T6}}
@@ -696,19 +692,55 @@ join_test() ->
 		]
 	),
 
+	ok.
+
+append_test() ->
+	?assertError(badarg, hnc_pq:append(a, foo, bar)),
+	?assertError(badarg, hnc_pq:append(a, hnc_pq:new([a]), foo)),
+	?assertError(badarg, hnc_pq:append(x, hnc_pq:new([a]), foo)),
+
 	lists:foreach(
 		fun ({A, B, C, X}) ->
 			PQ=hnc_pq:from_list([{a, A}, {b, B}, {c, C}]),
 			JQ=queue:from_list(X),
 
-			?assertEqual([{a, A++X}, {b, B}, {c, C}], hnc_pq:to_list(hnc_pq:join(a, PQ, JQ))),
-			?assertEqual([{a, X++A}, {b, B}, {c, C}], hnc_pq:to_list(hnc_pq:join(a, JQ, PQ))),
+			?assertEqual([{a, A++X}, {b, B}, {c, C}], hnc_pq:to_list(hnc_pq:append(a, PQ, JQ))),
 
-			?assertEqual([{a, A}, {b, B++X}, {c, C}], hnc_pq:to_list(hnc_pq:join(b, PQ, JQ))),
-			?assertEqual([{a, A}, {b, X++B}, {c, C}], hnc_pq:to_list(hnc_pq:join(b, JQ, PQ))),
+			?assertEqual([{a, A}, {b, B++X}, {c, C}], hnc_pq:to_list(hnc_pq:append(b, PQ, JQ))),
 
-			?assertEqual([{a, A}, {b, B}, {c, C++X}], hnc_pq:to_list(hnc_pq:join(c, PQ, JQ))),
-			?assertEqual([{a, A}, {b, B}, {c, X++C}], hnc_pq:to_list(hnc_pq:join(c, JQ, PQ)))
+			?assertEqual([{a, A}, {b, B}, {c, C++X}], hnc_pq:to_list(hnc_pq:append(c, PQ, JQ))),
+
+			?assertEqual([{a, A}, {b, B}, {c, C}, {x, X}], hnc_pq:to_list(hnc_pq:append(x, PQ, JQ)))
+		end,
+		[
+			{T1, T2, T3, T4}
+			||
+			T1 <- [[], [a1], [a1, a2]],
+			T2 <- [[], [b1], [b1, b2]],
+			T3 <- [[], [c1], [c1, c2]],
+			T4 <- [[], [x1], [x1, x2]]
+		]
+	),
+
+	ok.
+
+prepend_test() ->
+	?assertError(badarg, hnc_pq:prepend(a, foo, bar)),
+	?assertError(badarg, hnc_pq:prepend(a, hnc_pq:new([a]), foo)),
+	?assertError(badarg, hnc_pq:prepend(x, hnc_pq:new([a]), foo)),
+
+	lists:foreach(
+		fun ({A, B, C, X}) ->
+			PQ=hnc_pq:from_list([{a, A}, {b, B}, {c, C}]),
+			JQ=queue:from_list(X),
+
+			?assertEqual([{a, X++A}, {b, B}, {c, C}], hnc_pq:to_list(hnc_pq:prepend(a, PQ, JQ))),
+
+			?assertEqual([{a, A}, {b, X++B}, {c, C}], hnc_pq:to_list(hnc_pq:prepend(b, PQ, JQ))),
+
+			?assertEqual([{a, A}, {b, B}, {c, X++C}], hnc_pq:to_list(hnc_pq:prepend(c, PQ, JQ))),
+
+			?assertEqual([{x, X}, {a, A}, {b, B}, {c, C}], hnc_pq:to_list(hnc_pq:prepend(x, PQ, JQ)))
 		end,
 		[
 			{T1, T2, T3, T4}
