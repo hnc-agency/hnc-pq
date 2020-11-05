@@ -15,7 +15,7 @@
 
 {application, 'hnc_pq', [
 	{description, "Erlang priority queues"},
-	{vsn, "0.1.0"},
+	{vsn, "0.1.1"},
 	{modules, ['hnc_pq']},
 	{registered, []},
 	{applications, [kernel,stdlib]},

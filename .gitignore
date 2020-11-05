@@ -3,6 +3,7 @@
 *.d
 deps
 ebin
+cover
 test/*.beam
 doc/*.html
 doc/edoc-info
