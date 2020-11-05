@@ -1,44 +1,57 @@
 /* standard EDoc style sheet */
 body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
-      	margin-left: .25in;
-       	margin-right: .2in;
-       	margin-top: 0.2in;
-       	margin-bottom: 0.2in;
-       	color: #000000;
-       	background-color: #ffffff;
+	margin-left: .25in;
+	margin-right: .2in;
+	margin-top: 0.2in;
+  	margin-bottom: 0.2in;
+	font-size: 10pt;
+   	color: #117;
+  	background-color: #FFF;
+}
+table tr td {
+	font-size: 10pt;
 }
 h1,h2 {
  	margin-left: -0.2in;
 }
 div.navbar {
-	background-color: #add8e6;
-	padding: 0.2em;
+	background-color: #EEE;
+	margin-left: -0.25in;
+	margin-right: -0.2in;
+	margin-top: -0.2in;
 }
 h2.indextitle {
+	margin-left: -0.25in;
+	margin-right: -0.2in;
+	margin-top: -0.2in;
 	padding: 0.4em;
-	background-color: #add8e6;
+	background-color: #EEE;
 }
 h3.function,h3.typedecl {
-	background-color: #add8e6;
+	background-color: #EEE;
  	padding-left: 1em;
 }
 div.spec {
  	margin-left: 2em;
-	background-color: #eeeeee;
+	background-color: #DDD;
 }
-a.module {
+a, a:visited {
+	color: #55C;
 	text-decoration:none
 }
-a.module:hover {
-	background-color: #eeeeee;
+a:hover {
+	text-decoration: underline;
+}
+a[name] {
+	text-decoration: none;
 }
 ul.definitions {
 	list-style-type: none;
 }
 ul.index {
 	list-style-type: none;
-	background-color: #eeeeee;
+	background-color: #EEE;
 }
 
 /*

@@ -11,74 +11,49 @@
 
 <h1>Module hnc_pq</h1>
 <ul class="index"><li><a href="#description">Description</a></li><li><a href="#types">Data Types</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>Erlang priority queues.
+<p>Copyright © Maria Scott, Jan Uhlig</p>
 
+<p><b>Version:</b> 0.1.1</p>
+<p><b>Authors:</b> Maria Scott (<a href="mailto:maria-12648430@gmx.net"><tt>maria-12648430@gmx.net</tt></a>), Jan Uhlig (<a href="mailto:j.uhlig@mailingwork.de"><tt>j.uhlig@mailingwork.de</tt></a>).</p>
 
-<h2><a name="description">Description</a></h2><p>Erlang priority queues.</p>
- 
-  <p><code>hnc_pq</code> bundles a set of queues, ranked by priority.</p>
- 
-  For most functions, three flavors exist:
-  <ul>
-    <li>Functions addressing the entire priority queue, for example
-        <code>out/1</code>, which will return the item at the front of the
-        highest-priority subqueue which is not empty, if any items
-        exist in the entire priority queue at all.</li>
-    <li>Functions addressing a specific subqueue of the priority
-        queue, for example <code>out/2</code>, which will return the item at
-        the front of the given subqueue, if any items exist in that
-        subqueue at all.</li>
-    <li>Functions addressing a range of subqueues of the priority
-        queue, for example <code>out/3</code>, which will return the item at
-        the front of the highest-priority subqueue in the given
-        range which is not empty, if any items exist in the given
-        range at all.</li>
-  </ul>
- 
-  <p>Functions operate in priority queue order, iterating the subqueues
-  from highest to lowest priority, and processing each subqueue from
-  front to rear (except <code>out_r/1,2,3</code> which operate in reverse  
-priority queue order).</p>
- 
-  For this reason, the functions addressing a range of subqueues
-  take the maximum priority as their first and the minimum priority
-  as their second argument, different from what one might otherwise
-  be used to.
+<h2><a name="description">Description</a></h2>Erlang priority queues.
 <h2><a name="types">Data Types</a></h2>
 
-<h3 class="typedecl"><a name="type-item">item()</a></h3>
-<p><tt>item() = term()</tt></p>
-<p>  Queue item.</p>
+<h3 class="typedecl"><a name="type-prioqueue">prioqueue()</a></h3>
+<p><tt>prioqueue() = <a href="#type-prioqueue">prioqueue</a>(term(), term())</tt></p>
+
 
 <h3 class="typedecl"><a name="type-prioqueue">prioqueue()</a></h3>
-<p><b>abstract datatype</b>: <tt>prioqueue()</tt></p>
-<p>  As returned by <code>new/1</code>.</p>
+<p><b>abstract datatype</b>: <tt>prioqueue(Priority, Item)</tt></p>
 
-<h3 class="typedecl"><a name="type-priority">priority()</a></h3>
-<p><tt>priority() = term()</tt></p>
-<p>  Priority label.</p>
 
 <h2><a name="index">Function Index</a></h2>
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#all-2">all/2</a></td><td>Check if all items of a priority queue  
-satisfy a condition.</td></tr>
-<tr><td valign="top"><a href="#all-3">all/3</a></td><td>Check if all items of a subqueue of a  
-priority queue satisfy a condition.</td></tr>
-<tr><td valign="top"><a href="#all-4">all/4</a></td><td>Check if all items of a range of subqueues of a  
-priority queue satisfy a condition.</td></tr>
-<tr><td valign="top"><a href="#any-2">any/2</a></td><td>Check if at least one item of a priority queue  
-satisfies a condition.</td></tr>
-<tr><td valign="top"><a href="#any-3">any/3</a></td><td>Check if at least one item of a subqueue of a  
-priority queue satisfies a condition.</td></tr>
-<tr><td valign="top"><a href="#any-4">any/4</a></td><td>Check if at least one item of a range of subqueues of a  
-priority queue satisfies a condition.</td></tr>
-<tr><td valign="top"><a href="#filter-2">filter/2</a></td><td>Filter items of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#filter-3">filter/3</a></td><td>Filter items of a subqueue of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#filter-4">filter/4</a></td><td>Filter items of a range of subqueues of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#fold-3">fold/3</a></td><td>Fold a function over a priority queue.</td></tr>
-<tr><td valign="top"><a href="#fold-4">fold/4</a></td><td>Fold a function over a subqueue of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#fold-5">fold/5</a></td><td>Fold a function over a range of subqueues of a priority queue.</td></tr>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#all-2">all/2</a></td><td>Check if all items of a priority queue
+  satisfy a predicate, checked in priority queue order.</td></tr>
+<tr><td valign="top"><a href="#all-3">all/3</a></td><td>Check if all items of a subqueue of a
+  priority queue satisfy a predicate, checked in priority queue order.</td></tr>
+<tr><td valign="top"><a href="#all-4">all/4</a></td><td>Check if all items of a range of subqueues of a
+  priority queue satisfy a predicate, checked in priority queue order.</td></tr>
+<tr><td valign="top"><a href="#any-2">any/2</a></td><td>Check if at least one item of a priority queue
+  satisfies a predicate condition, checked in priority queue order.</td></tr>
+<tr><td valign="top"><a href="#any-3">any/3</a></td><td>Check if at least one item of a subqueue of a
+  priority queue satisfies a predicate, checked in priority queue order.</td></tr>
+<tr><td valign="top"><a href="#any-4">any/4</a></td><td>Check if at least one item of a range of subqueues of a
+  priority queue satisfies a predicate, checked in priority queue order.</td></tr>
+<tr><td valign="top"><a href="#append-3">append/3</a></td><td>Append to an existing subqueue or create a new subqueue in a priority queue.</td></tr>
+<tr><td valign="top"><a href="#filter-2">filter/2</a></td><td>Filter items of a priority queue, in priority queue order.</td></tr>
+<tr><td valign="top"><a href="#filter-3">filter/3</a></td><td>Filter items of a subqueue of a priority queue, in priority
+  queue order.</td></tr>
+<tr><td valign="top"><a href="#filter-4">filter/4</a></td><td>Filter items of a range of subqueues of a priority queue, in
+ 	priority queue order.</td></tr>
+<tr><td valign="top"><a href="#fold-3">fold/3</a></td><td>Fold a function over a priority queue, in priority queue order.</td></tr>
+<tr><td valign="top"><a href="#fold-4">fold/4</a></td><td>Fold a function over a subqueue of a priority queue, in priority
+ 	queue order.</td></tr>
+<tr><td valign="top"><a href="#fold-5">fold/5</a></td><td>Fold a function over a range of subqueues of a priority queue,
+ 	in priority queue order.</td></tr>
 <tr><td valign="top"><a href="#from_list-1">from_list/1</a></td><td>Create a priority queue from a list.</td></tr>
 <tr><td valign="top"><a href="#in-2">in/2</a></td><td>Insert the given item into a priority queue, at the rear.</td></tr>
-<tr><td valign="top"><a href="#in-3">in/3</a></td><td>Insert the given item into a subqueue of a priority queue, at the rear.</td></tr>
+<tr><td valign="top"><a href="#in-3">in/3</a></td><td>Insert an item into a subqueue of a priority queue, at the rear.</td></tr>
 <tr><td valign="top"><a href="#in_r-2">in_r/2</a></td><td>Insert the given item into a priority queue, at the front.</td></tr>
 <tr><td valign="top"><a href="#in_r-3">in_r/3</a></td><td>Insert the given item into a subqueue of a priority queue, at the front.</td></tr>
 <tr><td valign="top"><a href="#is_empty-1">is_empty/1</a></td><td>Check if a priority queue is empty.</td></tr>
@@ -86,28 +61,29 @@ priority queue satisfies a condition.</td></tr>
 <tr><td valign="top"><a href="#is_empty-3">is_empty/3</a></td><td>Check if a range of subqueues of a priority queue is empty.</td></tr>
 <tr><td valign="top"><a href="#is_priority-2">is_priority/2</a></td><td>Check if the given priority exists in a priority queue.</td></tr>
 <tr><td valign="top"><a href="#join-2">join/2</a></td><td>Join two priority queues.</td></tr>
-<tr><td valign="top"><a href="#join-3">join/3</a></td><td>Append or prepend a queue to a subqueue of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#length-1">length/1</a></td><td>Retrieve the number of items in a priority queue.</td></tr>
 <tr><td valign="top"><a href="#length-2">length/2</a></td><td>Retrieve the number of items in a subqueue of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#length-3">length/3</a></td><td>Retrieve the number of items in a range of subqueues of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#member-2">member/2</a></td><td>Check if the given item is a member of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#member-3">member/3</a></td><td>Check if the given item is a member of a subqueue of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#member-4">member/4</a></td><td></td></tr>
+<tr><td valign="top"><a href="#member-2">member/2</a></td><td>Check if an item is a member of a priority queue.</td></tr>
+<tr><td valign="top"><a href="#member-3">member/3</a></td><td>Check if an item is a member of a subqueue of a priority queue.</td></tr>
+<tr><td valign="top"><a href="#member-4">member/4</a></td><td>Check if an item is a member of a range of subqueues of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#new-1">new/1</a></td><td>Create a new priority queue.</td></tr>
 <tr><td valign="top"><a href="#out-1">out/1</a></td><td>Retrieve and remove the next item from a priority queue, from the front.</td></tr>
 <tr><td valign="top"><a href="#out-2">out/2</a></td><td>Retrieve and remove the next item from a subqueue of a priority queue, from the front.</td></tr>
-<tr><td valign="top"><a href="#out-3">out/3</a></td><td>Retrieve and remove the next item from a range of subqueues of a priority queue,  
-from the front.</td></tr>
+<tr><td valign="top"><a href="#out-3">out/3</a></td><td>Retrieve and remove the next item from a range of subqueues of a priority queue,
+  from the front.</td></tr>
 <tr><td valign="top"><a href="#out_r-1">out_r/1</a></td><td>Retrieve and remove the next item from a priority queue, from the rear.</td></tr>
 <tr><td valign="top"><a href="#out_r-2">out_r/2</a></td><td>Retrieve and remove the next item from a subqueue of a priority queue, from the rear.</td></tr>
-<tr><td valign="top"><a href="#out_r-3">out_r/3</a></td><td>Retrieve and remove the next item from a range of subqueues of a priority queue,  
-from the rear.</td></tr>
+<tr><td valign="top"><a href="#out_r-3">out_r/3</a></td><td>Retrieve and remove the next item from a range of subqueues of a priority queue,
+  from the rear.</td></tr>
+<tr><td valign="top"><a href="#prepend-3">prepend/3</a></td><td>Prepend to an existing subqueue or create a new subqueue in a priority queue.</td></tr>
 <tr><td valign="top"><a href="#priorities-1">priorities/1</a></td><td>Retrieve the priorities of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#queue-2">queue/2</a></td><td>Retrieve a subqueue of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#reprioritize-2">reprioritize/2</a></td><td>Change the priorities of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#reverse-1">reverse/1</a></td><td>Reverse a priority queue.</td></tr>
-<tr><td valign="top"><a href="#reverse-2">reverse/2</a></td><td>Reverse the items in a subqueue of a priority queue.</td></tr>
-<tr><td valign="top"><a href="#reverse-3">reverse/3</a></td><td>Reverse a range of subqueues of a priority queue.</td></tr>
+<tr><td valign="top"><a href="#reverse-1">reverse/1</a></td><td>Reverse the priority queue order of a priority queue.</td></tr>
+<tr><td valign="top"><a href="#reverse-2">reverse/2</a></td><td>Reverse the order of items in a subqueue of a priority queue.</td></tr>
+<tr><td valign="top"><a href="#reverse-3">reverse/3</a></td><td>Reverse the priority queue order of a range of
+ 	 subqueues of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#reverse_priorities-1">reverse_priorities/1</a></td><td>Reverse the priorities of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#reverse_priorities-3">reverse_priorities/3</a></td><td>Reverse the priorities of a range of subqueues of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#to_flatlist-1">to_flatlist/1</a></td><td>Convert a priority queue to a flat list of items.</td></tr>
@@ -126,585 +102,914 @@ from the rear.</td></tr>
 <h3 class="function"><a name="all-2">all/2</a></h3>
 <div class="spec">
 <p><tt>all(PredicateFun, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>PredicateFun = fun((Priority, QueueItem) -&gt; boolean())</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Check if all items of a priority queue  
-satisfy a condition.</p>
- 
-  <p>The predicate function takes two arguments: the priority
-  of each suqueue being checked in turn, and each item in turn.
-  It must return <code>true</code> if the priority and item satisfies
-  the condition, otherwise <code>false</code>.</p>
- 
-  If the predicate function returns <code>true</code> for all items,
-  this function returns <code>true</code> (including the case of the
-  priority queue being empty), otherwise <code>false</code>.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PredicateFun = fun((Priority, Item) -&gt; boolean())</tt></li></ul></p>
+<p><tt>PredicateFun</tt>: The predicate function, which takes two arguments,
+ 	the priority of the subqueue being checked, and an item. It must
+ 	return either <code>true</code> if the predicate condition is met, otherwise
+ 	<code>false</code>.<br>
+<tt>PrioQueue</tt>: The priority queue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if all items in the priority queue satisfy the predicate
+ 	condition, otherwise <code>false</code>.
+ </p>
+</div><p>Check if all items of a priority queue
+  satisfy a predicate, checked in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#all-3">all/3</a>, <a href="#all-4">all/4</a>.</p>
 
 <h3 class="function"><a name="all-3">all/3</a></h3>
 <div class="spec">
 <p><tt>all(Priority, PredicateFun, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PredicateFun = fun((Priority, QueueItem) -&gt; boolean())</tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Check if all items of a subqueue of a  
-priority queue satisfy a condition.</p>
- 
-  <p>The predicate function takes two arguments: the priority
-  of the suqueue being checked, and each item in turn.
-  It must return <code>true</code> if the priority and item satisfies
-  the condition, otherwise <code>false</code>.</p>
- 
-  If the predicate function returns <code>true</code> for all items,
-  this function returns <code>true</code> (including the case of the
-  subqueue being empty), otherwise <code>false</code>.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PredicateFun = fun((Priority, Item) -&gt; boolean())</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to check.<br>
+<tt>PredicateFun</tt>: The predicate function, which takes two arguments,
+ 	the priority of the subqueue being checked, and an item. It must
+ 	return either <code>true</code> if the predicate condition is met, otherwise
+ 	<code>false</code>.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if all items in the given subqueue satisfy the predicate
+ 	condition, otherwise <code>false</code>.
+ </p>
+</div><p>Check if all items of a subqueue of a
+  priority queue satisfy a predicate, checked in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#all-2">all/2</a>, <a href="#all-4">all/4</a>.</p>
 
 <h3 class="function"><a name="all-4">all/4</a></h3>
 <div class="spec">
 <p><tt>all(MaxPriority, MinPriority, PredicateFun, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PredicateFun = fun((Priority, QueueItem) -&gt; boolean())</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Check if all items of a range of subqueues of a  
-priority queue satisfy a condition.</p>
- 
-  <p>The predicate function takes two arguments: the priority
-  of each suqueue being checked in turn, and each item in turn.
-  It must return <code>true</code> if the priority and item satisfies
-  the condition, otherwise <code>false</code>.</p>
- 
-  If the predicate function returns <code>true</code> for all items,
-  this function returns <code>true</code> (including the case of all the
-  subqueues being empty), otherwise <code>false</code>.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>PredicateFun = fun((Priority, Item) -&gt; boolean())</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue to check.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue to check.<br>
+<tt>PredicateFun</tt>: The predicate function, which takes two arguments,
+ 	the priority of the subqueue being checked, and an item. It must
+ 	return either <code>true</code> if the predicate condition is met, otherwise
+ 	<code>false</code>.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueues to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if all items in the subqueues between <code>MaxPriority</code> and
+ 	<code>MinPriority</code> satisfy the predicate condition, otherwise <code>false</code>.
+ </p>
+</div><p>Check if all items of a range of subqueues of a
+  priority queue satisfy a predicate, checked in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#all-2">all/2</a>, <a href="#all-3">all/3</a>.</p>
 
 <h3 class="function"><a name="any-2">any/2</a></h3>
 <div class="spec">
 <p><tt>any(PredicateFun, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>PredicateFun = fun((Priority, QueueItem) -&gt; boolean())</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Check if at least one item of a priority queue  
-satisfies a condition.</p>
- 
-  <p>The predicate function takes two arguments: the priority
-  of each suqueue being checked in turn, and each item in turn.
-  It must return <code>true</code> if the priority and item satisfies
-  the condition, otherwise <code>false</code>.</p>
- 
-  If the predicate function returns <code>true</code> for any item,
-  this function returns <code>true</code>, otherwise <code>false</code> (including
-  the case of the priority queue being empty).</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PredicateFun = fun((Priority, Item) -&gt; boolean())</tt></li></ul></p>
+<p><tt>PredicateFun</tt>: The predicate function, which takes two arguments,
+ 	the priority of the subqueue being checked, and an item. It must
+ 	return either <code>true</code> if the predicate condition is met, otherwise
+ 	<code>false</code>.<br>
+<tt>PrioQueue</tt>: The priority queue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> any item in the priority queue satisfies the predicate
+ 	condition, otherwise <code>false</code>.
+ </p>
+</div><p>Check if at least one item of a priority queue
+  satisfies a predicate condition, checked in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#any-3">any/3</a>, <a href="#any-4">any/4</a>.</p>
 
 <h3 class="function"><a name="any-3">any/3</a></h3>
 <div class="spec">
 <p><tt>any(Priority, PredicateFun, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PredicateFun = fun((Priority, QueueItem) -&gt; boolean())</tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Check if at least one item of a subqueue of a  
-priority queue satisfies a condition.</p>
- 
-  <p>The predicate function takes two arguments: the priority
-  of the suqueue being checked, and each item in turn.
-  It must return <code>true</code> if the priority and item satisfies
-  the condition, otherwise <code>false</code>.</p>
- 
-  If the predicate function returns <code>true</code> for any item,
-  this function returns <code>true</code>, otherwise <code>false</code> (including
-  the case of the subqueue being empty).</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PredicateFun = fun((Priority, Item) -&gt; boolean())</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to check.<br>
+<tt>PredicateFun</tt>: The predicate function, which takes two arguments,
+ 	the priority of the subqueue being checked, and an item. It must
+ 	return either <code>true</code> if the predicate condition is met, otherwise
+ 	<code>false</code>.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if any item in the given subqueue satisfies the predicate
+ 	condition, otherwise <code>false</code>.
+ </p>
+</div><p>Check if at least one item of a subqueue of a
+  priority queue satisfies a predicate, checked in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#any-2">any/2</a>, <a href="#any-4">any/4</a>.</p>
 
 <h3 class="function"><a name="any-4">any/4</a></h3>
 <div class="spec">
-<p><tt>any(Prio, MinPrio, Fun, PQ) -&gt; any()</tt></p>
-<p> </p>
-</div><p><p>Check if at least one item of a range of subqueues of a  
-priority queue satisfies a condition.</p>
- 
-  <p>The predicate function takes two arguments: the priority
-  of each suqueue being checked in turn, and each item in turn.
-  It must return <code>true</code> if the priority and item satisfies
-  the condition, otherwise <code>false</code>.</p>
- 
-  If the predicate function returns <code>true</code> for any item,
-  this function returns <code>true</code>, otherwise <code>false</code> (including
-  the case of all the subqueues being empty).</p>
+<p><tt>any(MaxPriority, MinPriority, PredicateFun, PrioQueue) -&gt; boolean()</tt>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>PredicateFun = fun((Priority, Item) -&gt; boolean())</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue to check.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue to check.<br>
+<tt>PredicateFun</tt>: The predicate function, which takes two arguments,
+ 	the priority of the subqueue being checked, and an item. It must
+ 	return either <code>true</code> if the predicate condition is met, otherwise
+ 	<code>false</code>.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueues to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if any item in the subqueues between <code>MaxPriority</code> and
+ 	<code>MinPriority</code> satisfies the predicate condition, otherwise <code>false</code>.
+ </p>
+</div><p>Check if at least one item of a range of subqueues of a
+  priority queue satisfies a predicate, checked in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#any-2">any/2</a>, <a href="#any-3">any/3</a>.</p>
+
+<h3 class="function"><a name="append-3">append/3</a></h3>
+<div class="spec">
+<p><tt>append(Priority, PrioQueue0, AppendQueue) -&gt; PrioQueue1</tt>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority0, Item0)</tt></li><li><tt>AppendQueue = <a href="queue.html#type-queue">queue:queue</a>(Item1)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority0 | Priority, Item0 | Item1)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority of the subqueue to append to or create.<br>
+<tt>PrioQueue0</tt>: The priority queue to whose subqueue to append to or in
+ 	which to create a new subqueue.
+ <br>
+<tt>AppendQueue</tt>: A queue to append or create in the given priority queue.
+ 	If a priority subqueue with the given <code>Priority</code> exists in the priority queue,
+ 	the queue is appended to the existing queue, otherwise the queue is created as
+ 	the new lowest-priority subqueue.<br>
+</p>
+<p>returns: A new priority queue with the given <code>AppendQueue</code> appended to
+ 	an existing priority subqueue, or created as a new lowest-priority subqueue.
+ </p>
+</div><p>Append to an existing subqueue or create a new subqueue in a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#join-2">join/2</a>, <a href="#prepend-3">prepend/3</a>.</p>
 
 <h3 class="function"><a name="filter-2">filter/2</a></h3>
 <div class="spec">
 <p><tt>filter(FilterFun, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>FilterFun = fun((Priority, QueueItem) -&gt; boolean() | [InsertItem])</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>InsertItem = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Filter items of a priority queue.</p>
- 
-  <p>The filter function takes two arguments: the priority of each
-  subqueue being filtered in turn, and each item in turn. It must
-  return either <code>true</code> to keep the current item, <code>false</code> to drop it,  
-or a list of items that will be inserted in that place instead  
-of the current item.</p>
- 
-  The priority queue is filtered from highest to lowest priority,
-  and each subqueue is filtered from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0)</tt></li><li><tt>FilterFun = fun((Priority, Item0) -&gt; boolean() | [Item1])</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0 | Item1)</tt></li></ul></p>
+<p><tt>FilterFun</tt>: The filter function, which takes two arguments,
+ 	the priority of the subqueue being filtered, and an item.
+ 	It must either return <code>true</code> to keep, <code>false</code> to discard,
+ 	or a list of items to insert in place of the current item.<br>
+<tt>PrioQueue0</tt>: The priority queue whose subqueue to filter.
+ <br>
+</p>
+<p>returns: A new priority queue, filtered via <code>FilterFun</code>.
+ </p>
+</div><p>Filter items of a priority queue, in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#filter-3">filter/3</a>, <a href="#filter-4">filter/4</a>.</p>
 
 <h3 class="function"><a name="filter-3">filter/3</a></h3>
 <div class="spec">
 <p><tt>filter(Priority, FilterFun, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>FilterFun = fun((Priority, QueueItem) -&gt; boolean() | [InsertItem])</tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>InsertItem = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Filter items of a subqueue of a priority queue.</p>
- 
-  <p>The filter function takes two arguments: the priority of the
-  subqueue being filtered, and each item in turn. It must return either
-  <code>true</code> to keep the current item, <code>false</code> to drop it, or a list  
-of items that will be inserted in that place instead of the current  
-item.</p>
- 
-  The given subqueue is filtered from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0)</tt></li><li><tt>FilterFun = fun((Priority, Item0) -&gt; boolean() | [Item1])</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0 | Item1)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to filter.<br>
+<tt>FilterFun</tt>: The filter function, which takes two arguments,
+ 	the priority of the subqueue being filtered, and an item.
+ 	It must either return <code>true</code> to keep, <code>false</code> to discard,
+ 	or a list of items to insert in place of the current item.<br>
+<tt>PrioQueue0</tt>: The priority queue whose subqueue to filter.
+ <br>
+</p>
+<p>returns: A new priority queue with the given subqueue filtered
+ 	via <code>FilterFun</code>.
+ </p>
+</div><p>Filter items of a subqueue of a priority queue, in priority
+  queue order.
+ </p>
+<p><b>See also:</b> <a href="#filter-2">filter/2</a>, <a href="#filter-4">filter/4</a>.</p>
 
 <h3 class="function"><a name="filter-4">filter/4</a></h3>
 <div class="spec">
 <p><tt>filter(MaxPriority, MinPriority, FilterFun, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>FilterFun = fun((Priority, QueueItem) -&gt; boolean() | [InsertItem])</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>InsertItem = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Filter items of a range of subqueues of a priority queue.</p>
- 
-  <p>The filter function takes two arguments: the priority of each subqueue
-  being filtered in turn, and each item in turn. It must return either
-  <code>true</code> to keep the current item, <code>false</code> to drop it, or a list  
-of items that will be inserted in that place instead of the current  
-item.</p>
- 
-  The range is filtered from highest to lowest priority,
-  and each subqueue is filtered from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>FilterFun = fun((Priority, Item0) -&gt; boolean() | [Item1])</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0 | Item1)</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue to filter.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue to filter.<br>
+<tt>FilterFun</tt>: The filter function, which takes two arguments,
+ 	the priority of the subqueue being filtered, and an item.
+ 	It must either return <code>true</code> to keep, <code>false</code> to discard,
+ 	or a list of items to insert in place of the current item.<br>
+<tt>PrioQueue0</tt>: The priority queue whose subqueue to filter.
+ <br>
+</p>
+<p>returns: A new priority queue with the subqueues between <code>MaxPriority</code>
+ 	and <code>MinPriority</code>, inclusive, filtered via <code>FilterFun</code>.
+ </p>
+</div><p>Filter items of a range of subqueues of a priority queue, in
+ 	priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#filter-2">filter/2</a>, <a href="#filter-3">filter/3</a>.</p>
 
 <h3 class="function"><a name="fold-3">fold/3</a></h3>
 <div class="spec">
 <p><tt>fold(FoldFun, Acc0, PrioQueue) -&gt; Acc1</tt>
-<ul class="definitions"><li><tt>FoldFun = fun((Priority, QueueItem, AccIn) -&gt; AccOut)</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>AccIn = term()</tt></li><li><tt>AccOut = term()</tt></li><li><tt>Acc0 = term()</tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Acc1 = term()</tt></li></ul></p>
-<p> </p>
-</div><p><p>Fold a function over a priority queue.</p>
- 
-  <p>The fold function takes three arguments: the priority of each  
-subqueue being folded over in turn, each item in turn, and  
-an accumulator.  
-It must return a new accumulator which is then passed to the next  
-call of the fold function for the next item.</p>
- 
-  The priority queue is folded over from highest to lowest priority,
-  and each subqueue is folded over from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>FoldFun = fun((Priority, Item, AccIn) -&gt; AccOut)</tt></li><li><tt>AccIn = term()</tt></li><li><tt>AccOut = term()</tt></li><li><tt>Acc0 = term()</tt></li><li><tt>Acc1 = term()</tt></li></ul></p>
+<p><tt>FoldFun</tt>: The fold function, which takes 3 arguments, the
+ 	priority of the subqueue being filtered, an item, and an
+ 	accumulator. It must return a new accumulator, which is then
+ 	passed along in the next call to the fold function.<br>
+<tt>Acc0</tt>: The initial value of the accumulator.<br>
+<tt>PrioQueue</tt>: The priority queue over which to fold.
+ <br>
+</p>
+<p>returns: The last value of the accumulator returned by the fold
+ 	function after being run on successive elements of the
+ 	entire priority queue, or <code>Acc0</code> if the priority queue was empty.
+ </p>
+</div><p>Fold a function over a priority queue, in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#fold-4">fold/4</a>, <a href="#fold-5">fold/5</a>.</p>
 
 <h3 class="function"><a name="fold-4">fold/4</a></h3>
 <div class="spec">
 <p><tt>fold(Priority, FoldFun, Acc0, PrioQueue) -&gt; Acc1</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>FoldFun = fun((Priority, QueueItem, AccIn) -&gt; AccOut)</tt></li><li><tt>QueueItem = <a href="#type-item">item()</a></tt></li><li><tt>AccIn = term()</tt></li><li><tt>AccOut = term()</tt></li><li><tt>Acc0 = term()</tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Acc1 = term()</tt></li></ul></p>
-<p> </p>
-</div><p><p>Fold a function over a subqueue of a priority queue.</p>
- 
-  <p>The fold function takes three arguments: the priority of the  
-subqueue being folded over, each item in turn, and an accumulator.  
-It must return a new accumulator which is then passed to the next  
-call of the fold function for the next item.</p>
- 
-  The given subqueue is folded from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>FoldFun = fun((Priority, Item, AccIn) -&gt; AccOut)</tt></li><li><tt>AccIn = term()</tt></li><li><tt>AccOut = term()</tt></li><li><tt>Acc0 = term()</tt></li><li><tt>Acc1 = term()</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to be folded over.<br>
+<tt>FoldFun</tt>: The fold function, which takes 3 arguments, the
+ 	priority of the subqueue being filtered, an item, and an
+ 	accumulator. It must return a new accumulator, which is then
+ 	passed along in the next call to the fold function.<br>
+<tt>Acc0</tt>: The initial value of the accumulator.<br>
+<tt>PrioQueue</tt>: The priority queue over whose subqueue to fold.
+ <br>
+</p>
+<p>returns: The last value of the accumulator returned by the fold
+ 	function after being run on successive elements of the given
+ 	subqueue, or <code>Acc0</code> if the subqueue was empty.
+ </p>
+</div><p>Fold a function over a subqueue of a priority queue, in priority
+ 	queue order.
+ </p>
+<p><b>See also:</b> <a href="#fold-3">fold/3</a>, <a href="#fold-5">fold/5</a>.</p>
 
 <h3 class="function"><a name="fold-5">fold/5</a></h3>
 <div class="spec">
-<p><tt>fold(Prio, MinPrio, Fun, Acc0, PQ) -&gt; any()</tt></p>
-<p> </p>
-</div><p><p>Fold a function over a range of subqueues of a priority queue.</p>
- 
-  <p>The fold function takes three arguments: the priority of each  
-subqueue being folded over in turn, each item in turn, and an accumulator.  
-It must return a new accumulator which is then passed to the next  
-call of the fold function for the next item.</p>
- 
-  The range is folded over from highest to lowest priority,
-  and each subqueue is folded over from front to rear.</p>
+<p><tt>fold(MaxPriority, MinPriority, FoldFun, Acc0, PrioQueue) -&gt; Acc1</tt>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>FoldFun = fun((Priority, Item, AccIn) -&gt; AccOut)</tt></li><li><tt>AccIn = term()</tt></li><li><tt>AccOut = term()</tt></li><li><tt>Acc0 = term()</tt></li><li><tt>Acc1 = term()</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue to be folded over.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue to be folded over.<br>
+<tt>FoldFun</tt>: The fold function, which takes 3 arguments, the
+ 	priority of the subqueue being filtered, an item, and an
+ 	accumulator. It must return a new accumulator, which is then
+ 	passed along in the next call to the fold function.<br>
+<tt>Acc0</tt>: The initial value of the accumulator.<br>
+<tt>PrioQueue</tt>: The priority queue over whose subqueues to fold.
+ <br>
+</p>
+<p>returns: The last value of the accumulator returned by the fold
+ 	function after being run on successive elements of the
+ 	subqueues between <code>MaxPriority</code> and <code>MinPriority</code>, inclusive,
+ 	or <code>Acc0</code> if all the subqueues were empty.
+ </p>
+</div><p>Fold a function over a range of subqueues of a priority queue,
+ 	in priority queue order.
+ </p>
+<p><b>See also:</b> <a href="#fold-3">fold/3</a>, <a href="#fold-4">fold/4</a>.</p>
 
 <h3 class="function"><a name="from_list-1">from_list/1</a></h3>
 <div class="spec">
 <p><tt>from_list(PrioList) -&gt; PrioQueue</tt>
-<ul class="definitions"><li><tt>PrioList = [{Priority, ItemList}]</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>ItemList = [Item]</tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Create a priority queue from a list.</p>
- 
-  The argument list must consist of tuples of the form
-  <code>{Priority, Items}</code>, in descending priority order. <code>Items</code>
-  must be a list of the items of a subqueue, in front to
-  rear order.</p>
+<ul class="definitions"><li><tt>PrioList = [{Priority, [Item]}]</tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>PrioList</tt>: A list of tuples of the form <code>{Priority, Items}</code>,
+ 	in priority queue order, where <code>Priority</code> is a priority
+ 	label and <code>Items</code> is a list of items in this priority
+ 	subqueue. The priorities must be unique among the list.
+ <br>
+</p>
+<p>returns: A new priority queue with subqueues according to
+ 	the given priorities, containing the respective items.</p>
+</div><p>Create a priority queue from a list.
+ </p>
 
 <h3 class="function"><a name="in-2">in/2</a></h3>
 <div class="spec">
 <p><tt>in(Item, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Insert the given item into a priority queue, at the rear.</p>
- 
-  The item will be inserted at the rear of the subqueue with the lowest priority.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0 | Item)</tt></li></ul></p>
+<p><tt>Item</tt>: The item to insert.<br>
+<tt>PrioQueue0</tt>: The priority queue into which to insert.
+ <br>
+</p>
+<p>returns: A new priority queue where the given item has been inserted
+ 	at the rear of the lowest-priority subqueue of the given priority
+ 	queue.
+ </p>
+</div><p>Insert the given item into a priority queue, at the rear.
+ </p>
+<p><b>See also:</b> <a href="#in-3">in/3</a>, <a href="#in_r-2">in_r/2</a>.</p>
 
 <h3 class="function"><a name="in-3">in/3</a></h3>
 <div class="spec">
 <p><tt>in(Priority, Item, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Insert the given item into a subqueue of a priority queue, at the rear.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0 | Item)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue into which to insert.<br>
+<tt>Item</tt>: The item to insert.<br>
+<tt>PrioQueue0</tt>: The priority queue into whose subqueue to insert.
+ <br>
+</p>
+<p>returns: A new priority queue where the given item has been inserted
+ 	at the rear of the given subqueue of the given priority queue.
+ </p>
+</div><p>Insert an item into a subqueue of a priority queue, at the rear.
+ </p>
+<p><b>See also:</b> <a href="#in-2">in/2</a>, <a href="#in_r-3">in_r/3</a>.</p>
 
 <h3 class="function"><a name="in_r-2">in_r/2</a></h3>
 <div class="spec">
 <p><tt>in_r(Item, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Insert the given item into a priority queue, at the front.</p>
- 
-  The item will be inserted at the front of the subqueue with the highest priority.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0 | Item)</tt></li></ul></p>
+<p><tt>Item</tt>: The item to insert.<br>
+<tt>PrioQueue0</tt>: The priority queue into which to insert.
+ <br>
+</p>
+<p>returns: A new priority queue where the given item has been inserted
+ 	at the front of the highest-priority subqueue of the given priority
+ 	queue.
+ </p>
+</div><p>Insert the given item into a priority queue, at the front.
+ </p>
+<p><b>See also:</b> <a href="#in-2">in/2</a>, <a href="#in_r-3">in_r/3</a>.</p>
 
 <h3 class="function"><a name="in_r-3">in_r/3</a></h3>
 <div class="spec">
 <p><tt>in_r(Priority, Item, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Insert the given item into a subqueue of a priority queue, at the front.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item0 | Item)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue into which to insert.<br>
+<tt>Item</tt>: The item to insert.<br>
+<tt>PrioQueue0</tt>: The priority queue into whose subqueue to insert.
+ <br>
+</p>
+<p>returns: A new priority queue where the given item has been inserted
+ 	at the front of the given subqueue of the given priority queue.
+ </p>
+</div><p>Insert the given item into a subqueue of a priority queue, at the front.
+ </p>
+<p><b>See also:</b> <a href="#in-3">in/3</a>, <a href="#in_r-2">in_r/2</a>.</p>
 
 <h3 class="function"><a name="is_empty-1">is_empty/1</a></h3>
 <div class="spec">
 <p><tt>is_empty(PrioQueue) -&gt; boolean()</tt>
 <ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Check if a priority queue is empty.</p>
+<p><tt>PrioQueue</tt>: The priority queue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if the entire priority queue is empty,
+ 	otherwise <code>false</code>.
+ </p>
+</div><p>Check if a priority queue is empty.
+ </p>
+<p><b>See also:</b> <a href="#is_empty-2">is_empty/2</a>, <a href="#is_empty-3">is_empty/3</a>.</p>
 
 <h3 class="function"><a name="is_empty-2">is_empty/2</a></h3>
 <div class="spec">
 <p><tt>is_empty(Priority, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Check if a subqueue of a priority queue is empty.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, term())</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to check.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if the given subqueue is empty, otherwise
+ 	<code>false</code>.
+ </p>
+</div><p>Check if a subqueue of a priority queue is empty.
+ </p>
+<p><b>See also:</b> <a href="#is_empty-1">is_empty/1</a>, <a href="#is_empty-3">is_empty/3</a>.</p>
 
 <h3 class="function"><a name="is_empty-3">is_empty/3</a></h3>
 <div class="spec">
 <p><tt>is_empty(MaxPriority, MinPriority, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Check if a range of subqueues of a priority queue is empty.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, term())</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue to check.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue to check.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueues to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if all subqueues between <code>MaxPriority</code> and <code>MinPriority</code>,
+ 	inclusive, are empty, otherwise <code>false</code>.
+ </p>
+</div><p>Check if a range of subqueues of a priority queue is empty.
+ </p>
+<p><b>See also:</b> <a href="#is_empty-1">is_empty/1</a>, <a href="#is_empty-2">is_empty/2</a>.</p>
 
 <h3 class="function"><a name="is_priority-2">is_priority/2</a></h3>
 <div class="spec">
 <p><tt>is_priority(Priority, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Check if the given priority exists in a priority queue.</p>
+<ul class="definitions"><li><tt>Priority = term()</tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
+<p><tt>Priority</tt>: The priority to check for existence.<br>
+<tt>PrioQueue</tt>: The priority queue in which to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if the given priority exists in the
+ 	given priority queue, otherwise <code>false</code>.</p>
+</div><p>Check if the given priority exists in a priority queue.
+ </p>
 
 <h3 class="function"><a name="join-2">join/2</a></h3>
 <div class="spec">
 <p><tt>join(PrioQueue0, PrioQueue1) -&gt; PrioQueue2</tt>
-<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue2 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Join two priority queues.</p>
- 
-  <p>Both priority queues must have the same priorities in the same order.</p>
- 
-  The subqueues of the second priority queue will be appended to
-  their respective counterparts in of the first priority queue.</p>
-
-<h3 class="function"><a name="join-3">join/3</a></h3>
-<div class="spec">
-<p><tt>join(Priority, PrioQueue0, JoinQueue) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>JoinQueue = <a href="queue.html#type-queue">queue:queue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p><p><tt>join(Priority, JoinQueue, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>JoinQueue = <a href="queue.html#type-queue">queue:queue()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-<p> </p>
-</div><p><p>Append or prepend a queue to a subqueue of a priority queue.</p>
- 
-  If the second argument is a queue and the third argument is a priority
-  queue, the queue is prepended to the specified subqueue of the priority
-  queue.
-  If the second argument is a priority queue and the third argument is a
-  queue, the queue is appended to the specified subqueue of the priority
-  queue.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority0, Item0)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority1, Item1)</tt></li><li><tt>PrioQueue2 = <a href="#type-prioqueue">prioqueue</a>(Priority0 | Priority1, Item0 | Item1)</tt></li></ul></p>
+<p><tt>PrioQueue0</tt>: The priority queue to join with <code>PrioQueue1</code>.<br>
+<tt>PrioQueue1</tt>: The priority queue to join with <code>PrioQueue0</code>.
+ <br>
+</p>
+<p>returns: A new priority queue where all subqueues in <code>PrioQueue1</code>
+ 	which exist in <code>PrioQueue0</code> have been appended, and all
+ 	non-existing subqueues have been inserted as new lowest-priority
+ 	subqueues, in the order in which they appear in <code>PrioQueue1</code>.</p>
+</div><p>Join two priority queues.
+ </p>
 
 <h3 class="function"><a name="length-1">length/1</a></h3>
 <div class="spec">
 <p><tt>length(PrioQueue) -&gt; Length</tt>
 <ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Length = non_neg_integer()</tt></li></ul></p>
-<p> </p>
-</div><p>Retrieve the number of items in a priority queue.</p>
+<p><tt>PrioQueue</tt>: The priority queue whose length to retrieve.
+ <br>
+</p>
+<p>returns: The number of items in the entire priority queue.
+ </p>
+</div><p>Retrieve the number of items in a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#length-2">length/2</a>, <a href="#length-3">length/3</a>.</p>
 
 <h3 class="function"><a name="length-2">length/2</a></h3>
 <div class="spec">
 <p><tt>length(Priority, PrioQueue) -&gt; Length</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Length = non_neg_integer()</tt></li></ul></p>
-<p> </p>
-</div><p>Retrieve the number of items in a subqueue of a priority queue.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, term())</tt></li><li><tt>Length = non_neg_integer()</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue whose length to retrieve.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue's length to retrieve.
+ <br>
+</p>
+<p>returns: The number of items in the given priority subqueue of the given
+ 	priority queue.
+ </p>
+</div><p>Retrieve the number of items in a subqueue of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#length-1">length/1</a>, <a href="#length-3">length/3</a>.</p>
 
 <h3 class="function"><a name="length-3">length/3</a></h3>
 <div class="spec">
 <p><tt>length(MaxPriority, MinPriority, PrioQueue) -&gt; Length</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Length = non_neg_integer()</tt></li></ul></p>
-<p> </p>
-</div><p>Retrieve the number of items in a range of subqueues of a priority queue.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, term())</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>Length = non_neg_integer()</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue whose length to retrieve.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue whose length to retrieve.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueues length to retrieve.
+ <br>
+</p>
+<p>returns: The number of items in the subqueues between <code>MaxPriority</code> and <code>MinPriority</code>,
+ 	inclusive, of the given priority queue.
+ </p>
+</div><p>Retrieve the number of items in a range of subqueues of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#length-1">length/1</a>, <a href="#length-2">length/2</a>.</p>
 
 <h3 class="function"><a name="member-2">member/2</a></h3>
 <div class="spec">
 <p><tt>member(Item, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Check if the given item is a member of a priority queue.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(term(), Item)</tt></li></ul></p>
+<p><tt>Item</tt>: The item whose existence to check.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if the given <code>Item</code> is a member of the given
+ 	priority queue, otherwise <code>false</code>.
+ </p>
+</div><p>Check if an item is a member of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#member-3">member/3</a>, <a href="#member-4">member/4</a>.</p>
 
 <h3 class="function"><a name="member-3">member/3</a></h3>
 <div class="spec">
 <p><tt>member(Priority, Item, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Check if the given item is a member of a subqueue of a priority queue.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority of the subqueue to check.<br>
+<tt>Item</tt>: The item whose existence to check.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if the given <code>Item</code> is a member of the given subqueue
+ 	of the given priority queue, otherwise <code>false</code>.
+ </p>
+</div><p>Check if an item is a member of a subqueue of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#member-2">member/2</a>, <a href="#member-4">member/4</a>.</p>
 
 <h3 class="function"><a name="member-4">member/4</a></h3>
 <div class="spec">
 <p><tt>member(MaxPriority, MinPriority, Item, PrioQueue) -&gt; boolean()</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue to check.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue to check.<br>
+<tt>Item</tt>: The item whose existence to check.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to check.
+ <br>
+</p>
+<p>returns: <code>true</code> if the given <code>Item</code> is a member of the priority subqueues between
+ 	<code>MaxPriority</code> and <code>MinPriority</code>, inclusive, of the given priority queue,
+ 	otherwise <code>false</code>.
+ </p>
+</div><p>Check if an item is a member of a range of subqueues of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#member-2">member/2</a>, <a href="#member-3">member/3</a>.</p>
 
 <h3 class="function"><a name="new-1">new/1</a></h3>
 <div class="spec">
 <p><tt>new(Priorities) -&gt; PrioQueue</tt>
-<ul class="definitions"><li><tt>Priorities = [Priority, ...]</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Create a new priority queue.</p>
- 
-  The argument given to this function is a list of the priorities
-  the priority queue should have, in descending order.</p>
+<ul class="definitions"><li><tt>Priorities = [Priority, ...]</tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, term())</tt></li></ul></p>
+<p><tt>Priorities</tt>: A list of unique priorities the priority queue
+ 	should have, in descending order. A priority can be any term.
+ <br>
+</p>
+<p>returns: A new, empty priority queue with the given priorities.</p>
+</div><p>Create a new priority queue.
+ </p>
 
 <h3 class="function"><a name="out-1">out/1</a></h3>
 <div class="spec">
 <p><tt>out(PrioQueue0) -&gt; empty | {Item, PrioQueue1}</tt>
-<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Retrieve and remove the next item from a priority queue, from the front.</p>
- 
-  The item will be taken from the front of the subqueue with the highest priority
-  that is not empty. If all subqueues are empty, the atom <code>empty</code> is returned.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>PrioQueue0</tt>: The priority queue from which to retrieve an item.
+ <br>
+</p>
+<p>returns: Either the atom <code>empty</code> if all subqueues of the given priority queue are empty,
+ 	or a tuple of the form <code>{Item, NewPrioQueue}</code>, where <code>Item</code> is the item that was
+ 	retrieved from the front of the highest-priority non-empty subqueue and <code>NewPrioQueue</code>
+ 	is a new priority queue with that item accordingly removed.
+ </p>
+</div><p>Retrieve and remove the next item from a priority queue, from the front.
+ </p>
+<p><b>See also:</b> <a href="#out-2">out/2</a>, <a href="#out-3">out/3</a>, <a href="#out_r-1">out_r/1</a>.</p>
 
 <h3 class="function"><a name="out-2">out/2</a></h3>
 <div class="spec">
 <p><tt>out(Priority, PrioQueue0) -&gt; empty | {Item, PrioQueue1}</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Retrieve and remove the next item from a subqueue of a priority queue, from the front.</p>
- 
-  The item will be taken from the front of the specified subqueue. If the subqueue is empty,
-  the atom <code>empty</code> is returned.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue from which to retrieve an item.<br>
+<tt>PrioQueue0</tt>: The priority queue from whose subqueue to retrieve.
+ <br>
+</p>
+<p>returns: Either the atom <code>empty</code> if the given subqueue is empty, or a tuple of the form
+ 	<code>{Item, NewPrioQueue}</code>, where <code>Item</code> is the item that was retrieved from the front of
+ 	the given subqueue and <code>NewPrioQueue</code> is a new priority queue with that item accordingly
+ 	removed.
+ </p>
+</div><p>Retrieve and remove the next item from a subqueue of a priority queue, from the front.
+ </p>
+<p><b>See also:</b> <a href="#out-1">out/1</a>, <a href="#out-3">out/3</a>, <a href="#out_r-2">out_r/2</a>.</p>
 
 <h3 class="function"><a name="out-3">out/3</a></h3>
 <div class="spec">
 <p><tt>out(MaxPriority, MinPriority, PrioQueue0) -&gt; empty | {Item, PrioQueue1}</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Retrieve and remove the next item from a range of subqueues of a priority queue,  
-from the front.</p>
- 
-  The item will be taken from the front of the subqueue with the highest priority
-  in the given range that is not empty. If all the subqueues are empty, the atom <code>empty</code>
-  is returned.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue from which to retrieve an item.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue from which to retrieve an item.<br>
+<tt>PrioQueue0</tt>: The priority queue from whose subqueues to retrieve an item.
+ <br>
+</p>
+<p>returns: Either the atom <code>empty</code> if all subqueues between <code>MaxPriority</code>  and
+ 	<code>MinPriority</code>, inclusive, are empty, or a tuple of the form <code>{Item, NewPrioQueue}</code>,
+ 	where <code>Item</code> is the item that was retrieved from the front of the highest-priority
+ 	non-empty subqueue and <code>NewPrioQueue</code> is a new priority queue with that item
+ 	accordingly removed.
+ </p>
+</div><p>Retrieve and remove the next item from a range of subqueues of a priority queue,
+  from the front.
+ </p>
+<p><b>See also:</b> <a href="#out-1">out/1</a>, <a href="#out-2">out/2</a>, <a href="#out_r-3">out_r/3</a>.</p>
 
 <h3 class="function"><a name="out_r-1">out_r/1</a></h3>
 <div class="spec">
 <p><tt>out_r(PrioQueue0) -&gt; empty | {Item, PrioQueue1}</tt>
-<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Retrieve and remove the next item from a priority queue, from the rear.</p>
- 
-  The item will be taken from the rear of the subqueue with the lowest priority
-  that is not empty. If all subqueues are empty, the atom <code>empty</code>  is returned.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>PrioQueue0</tt>: The priority queue from which to retrieve an item.
+ <br>
+</p>
+<p>returns: Either the atom <code>empty</code> if all subqueues of the given priority queue are empty,
+ 	or a tuple of the form <code>{Item, NewPrioQueue}</code>, where <code>Item</code> is the item that was
+ 	retrieved from the rear of the lowest-priority non-empty subqueue and <code>NewPrioQueue</code>
+ 	is a new priority queue with that item accordingly removed.
+ </p>
+</div><p>Retrieve and remove the next item from a priority queue, from the rear.
+ </p>
+<p><b>See also:</b> <a href="out_1.html">out_1</a>, <a href="#out_r-2">out_r/2</a>, <a href="#out_r-3">out_r/3</a>.</p>
 
 <h3 class="function"><a name="out_r-2">out_r/2</a></h3>
 <div class="spec">
 <p><tt>out_r(Priority, PrioQueue0) -&gt; empty | {Item, PrioQueue1}</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Retrieve and remove the next item from a subqueue of a priority queue, from the rear.</p>
- 
-  The item will be taken from the rear of the specified subqueue. If the subqueue is empty,
-  the atom <code>empty</code> is returned.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue from which to retrieve an item.<br>
+<tt>PrioQueue0</tt>: The priority queue from whose subqueue to retrieve.
+ <br>
+</p>
+<p>returns: Either the atom <code>empty</code> if the given subqueue is empty, or a tuple of the form
+ 	<code>{Item, NewPrioQueue}</code>, where <code>Item</code> is the item that was retrieved from the rear of
+ 	the given subqueue and <code>NewPrioQueue</code> is a new priority queue with that item accordingly
+ 	removed.
+ </p>
+</div><p>Retrieve and remove the next item from a subqueue of a priority queue, from the rear.
+ </p>
+<p><b>See also:</b> <a href="#out-2">out/2</a>, <a href="#out_r-1">out_r/1</a>, <a href="#out_r-3">out_r/3</a>.</p>
 
 <h3 class="function"><a name="out_r-3">out_r/3</a></h3>
 <div class="spec">
 <p><tt>out_r(MaxPriority, MinPriority, PrioQueue0) -&gt; empty | {Item, PrioQueue1}</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Retrieve and remove the next item from a range of subqueues of a priority queue,  
-from the rear.</p>
- 
-  The item will be taken from the rear of the subqueue with the lowest priority
-  in the given range that is not empty. If all the subqueues are empty, the atom <code>empty</code>
-  is returned.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue from which to retrieve an item.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue from which to retrieve an item.<br>
+<tt>PrioQueue0</tt>: The priority queue from whose subqueues to retrieve an item.
+ <br>
+</p>
+<p>returns: Either the atom <code>empty</code> if all subqueues between <code>MaxPriority</code>  and
+ 	<code>MinPriority</code>, inclusive, are empty, or a tuple of the form <code>{Item, NewPrioQueue}</code>,
+ 	where <code>Item</code> is the item that was retrieved from the rear of the lowest-priority
+ 	non-empty subqueue and <code>NewPrioQueue</code> is a new priority queue with that item
+ 	accordingly removed.
+ </p>
+</div><p>Retrieve and remove the next item from a range of subqueues of a priority queue,
+  from the rear.
+ </p>
+<p><b>See also:</b> <a href="#out-3">out/3</a>, <a href="#out_r-1">out_r/1</a>, <a href="#out_r-2">out_r/2</a>.</p>
+
+<h3 class="function"><a name="prepend-3">prepend/3</a></h3>
+<div class="spec">
+<p><tt>prepend(Priority, PrioQueue0, PrependQueue) -&gt; PrioQueue1</tt>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority0, Item0)</tt></li><li><tt>PrependQueue = <a href="queue.html#type-queue">queue:queue</a>(Item1)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority0 | Priority, Item0 | Item1)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority of the subqueue to prepend to or create.<br>
+<tt>PrioQueue0</tt>: The priority queue to whose subqueue to prepend to or in
+ 	which to create a new subqueue.
+ <br>
+<tt>PrependQueue</tt>: A queue to prepend or create in the given priority queue.
+ 	If a priority subqueue with the given <code>Priority</code> exists in the priority queue,
+ 	the queue is prepended to the existing queue, otherwise the queue is created as
+ 	the new highest-priority subqueue.<br>
+</p>
+<p>returns: A new priority queue with the given <code>PrependQueue</code> prepended to
+ 	an existing priority subqueue, or created as a new highest-priority subqueue.
+ </p>
+</div><p>Prepend to an existing subqueue or create a new subqueue in a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#append-3">append/3</a>, <a href="#join-2">join/2</a>.</p>
 
 <h3 class="function"><a name="priorities-1">priorities/1</a></h3>
 <div class="spec">
 <p><tt>priorities(PrioQueue) -&gt; Priorities</tt>
-<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Priorities = [Priority, ...]</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Retrieve the priorities of a priority queue.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, term())</tt></li><li><tt>Priorities = [Priority]</tt></li></ul></p>
+<p><tt>PrioQueue</tt>: The priority queue whose priorities to retrieve.
+ <br>
+</p>
+<p>returns: A list of the priorities of the given priority queue,
+ 	in descending order.</p>
+</div><p>Retrieve the priorities of a priority queue.
+ </p>
 
 <h3 class="function"><a name="queue-2">queue/2</a></h3>
 <div class="spec">
 <p><tt>queue(Priority, PrioQueue) -&gt; Queue</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>Queue = <a href="queue.html#type-queue">queue:queue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Retrieve a subqueue of a priority queue.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>Queue = <a href="queue.html#type-queue">queue:queue</a>(Item)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to retrieve.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to retrieve.
+ <br>
+</p>
+<p>returns: The subqueue with the given priority in the given
+ 	priority queue.</p>
+</div><p>Retrieve a subqueue of a priority queue.
+ </p>
 
 <h3 class="function"><a name="reprioritize-2">reprioritize/2</a></h3>
 <div class="spec">
 <p><tt>reprioritize(Priorities, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Priorities = [Priority, ...]</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
+<ul class="definitions"><li><tt>Priorities = [NewPriority, ...]</tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(OldPriority, Item)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(OldPriority | NewPriority, Item)</tt></li></ul></p>
+<p><tt>Priorities</tt>: A list of unique new priorities to impose on the
+ 	priority queue.<br>
+<tt>PrioQueue0</tt>: The priority queue whose priorities to change.
+ <br>
+</p>
+<p>returns: A new priority queue with the priorities as specified by
+ 	the <code>Priorities</code> parameter, in that order. Priorities that
+ 	exist in both the given priority queue and the new priorities
+ 	list are present as before in the resulting priority queue.
+ 	Priorities that exist in the new priorities but not in the
+ 	given priority queue will be created empty in the resulting
+ 	priority queue. Priorities that exist in the given priority
+ 	queue but not in the new priorities will not be present in the
+ 	resulting priority queue.</p>
 </div><p><p>Change the priorities of a priority queue.</p>
  
-  The resulting priority queue will have the given priorities
-  in the order specified by the first parameter. Subqueues that
-  exist in both the priorities list and the priority queue will
-  remain. Subqueues that exist in the priorities list but not in
-  the priority queue will be created empty. Subqueues that exist
-  in the priority queue but not in the priorities list will be
-  removed.</p>
+  This function can be used to add, remove, or rearrange priorities
+  of a priority queue.
+ </p>
 
 <h3 class="function"><a name="reverse-1">reverse/1</a></h3>
 <div class="spec">
 <p><tt>reverse(PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Reverse a priority queue.</p>
- 
-  The resulting priority queue will have the priorities in reverse
-  order, and the items in each subqueue will be in reverse order, also.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>PrioQueue0</tt>: The priority queue to reverse.
+ <br>
+</p>
+<p>returns: A new priority queue where the priorities of the subqueues
+ 	has been reversed, and the order of items in each subqueue
+ 	has been reversed, also.
+ </p>
+</div><p>Reverse the priority queue order of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#reverse-2">reverse/2</a>, <a href="#reverse-3">reverse/3</a>.</p>
 
 <h3 class="function"><a name="reverse-2">reverse/2</a></h3>
 <div class="spec">
 <p><tt>reverse(Priority, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p>Reverse the items in a subqueue of a priority queue.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority of the subqueue to reverse.<br>
+<tt>PrioQueue0</tt>: The priority whose subqueue to reverse,
+ <br>
+</p>
+<p>returns: A new priority queue with the items in the given
+ 	subqueue reversed.
+ </p>
+</div><p>Reverse the order of items in a subqueue of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#reverse-1">reverse/1</a>, <a href="#reverse-3">reverse/3</a>.</p>
 
 <h3 class="function"><a name="reverse-3">reverse/3</a></h3>
 <div class="spec">
 <p><tt>reverse(MaxPriority, MinPriority, PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Reverse a range of subqueues of a priority queue.</p>
- 
-  The resulting priority queue will have the priorities in the range
-  in reverse order, and the items in each subqueue in the range will
-  be in reverse order, also.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The minimum priority subqueue to reverse.<br>
+<tt>PrioQueue0</tt>: The priority queue whose subqueues to reverse.
+ <br>
+</p>
+<p>returns: A new priority queue where the priority queue order of
+ 	the subqueues between <code>MaxPriority</code> and <code>MinPriority</code>, inclusive,
+ 	has been reversed. Specifically, this means that the priorities
+ 	of the priority subqueues has been reversed, and the order of the
+ 	items in each of those subqueues has been reversed, also.
+ </p>
+</div><p>Reverse the priority queue order of a range of
+ 	 subqueues of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#reverse-1">reverse/1</a>, <a href="#reverse-2">reverse/2</a>.</p>
 
 <h3 class="function"><a name="reverse_priorities-1">reverse_priorities/1</a></h3>
 <div class="spec">
 <p><tt>reverse_priorities(PrioQueue0) -&gt; PrioQueue1</tt>
-<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Reverse the priorities of a priority queue.</p>
- 
-  The resulting priority queue will have the priorities in reverse order,
-  but the items in each subqueue will remain in the current order.</p>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>PrioQueue0</tt>: The priority queue whose priorities to reverse.
+ <br>
+</p>
+<p>returns: A new priority queue where the priorities of all subqueues
+ 	has been reversed. The order of items in the respective subqueues
+ 	remains unchanged.
+ </p>
+</div><p>Reverse the priorities of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#reverse_priorities-3">reverse_priorities/3</a>.</p>
 
 <h3 class="function"><a name="reverse_priorities-3">reverse_priorities/3</a></h3>
 <div class="spec">
-<p><tt>reverse_priorities(Prio, MinPrio, PQ) -&gt; any()</tt></p>
-<p> </p>
-</div><p><p>Reverse the priorities of a range of subqueues of a priority queue.</p>
- 
-  The resulting priority queue will have the priorities in the given range
-  in reverse order, but the items in each subqueue will remain in the current order.</p>
+<p><tt>reverse_priorities(MaxPriority, MinPriority, PrioQueue0) -&gt; PrioQueue1</tt>
+<ul class="definitions"><li><tt>PrioQueue0 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>PrioQueue1 = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue whose priority to change.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue whose priority to change.<br>
+<tt>PrioQueue0</tt>: The priority queue whose subqueue priorities to reverse.
+ <br>
+</p>
+<p>returns: A new priority queue where the priorities of the subqueues between
+ 	<code>MaxPriority</code> and <code>MinPriority</code>, inclusive, has been reversed. The order
+ 	of items in the respective subqueues remains unchanged.
+ </p>
+</div><p>Reverse the priorities of a range of subqueues of a priority queue.
+ </p>
+<p><b>See also:</b> <a href="#reverse_priorities-1">reverse_priorities/1</a>.</p>
 
 <h3 class="function"><a name="to_flatlist-1">to_flatlist/1</a></h3>
 <div class="spec">
 <p><tt>to_flatlist(PrioQueue) -&gt; ItemList</tt>
-<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>ItemList = [Item]</tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a priority queue to a flat list of items.</p>
- 
-  The items in the result list are ordered from the front
-  element of the highest priority to the rear element of
-  the lowest priority, which is the order in which they would
-  be returned by successive calls to <code>out/1</code>.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(term(), Item)</tt></li><li><tt>ItemList = [Item]</tt></li></ul></p>
+<p><tt>PrioQueue</tt>: The priority queue to convert.
+ <br>
+</p>
+<p>returns: A list containing all the items of the priority
+ 	queue, in priority queue order.
+ </p>
+</div><p>Convert a priority queue to a flat list of items.
+ </p>
+<p><b>See also:</b> <a href="#to_flatlist-2">to_flatlist/2</a>, <a href="#to_flatlist-3">to_flatlist/3</a>.</p>
 
 <h3 class="function"><a name="to_flatlist-2">to_flatlist/2</a></h3>
 <div class="spec">
 <p><tt>to_flatlist(Priority, PrioQueue) -&gt; ItemList</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>ItemList = [Item]</tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a subqueue of a priority queue to a flat list of items.</p>
- 
-  The items in the result list are ordered from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>ItemList = [Item]</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to convert.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to convert.
+ <br>
+</p>
+<p>returns: A list of items in the given subqueue.
+ </p>
+</div><p>Convert a subqueue of a priority queue to a flat list of items.
+ </p>
+<p><b>See also:</b> <a href="#to_flatlist-1">to_flatlist/1</a>, <a href="#to_flatlist-3">to_flatlist/3</a>.</p>
 
 <h3 class="function"><a name="to_flatlist-3">to_flatlist/3</a></h3>
 <div class="spec">
 <p><tt>to_flatlist(MaxPriority, MinPriority, PrioQueue) -&gt; ItemList</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>ItemList = [Item]</tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a range of subqueues of a priority queue to a flat list of items.</p>
- 
-  The items in the result list are ordered from the front
-  element of the subqueue with the highest priority to the rear
-  element of the subqueue with the lowest priority, which is the
-  order in which they would be returned by successive calls to <code>out/3</code>.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>ItemList = [Item]</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The minimum priority subqueue to convert.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueues to convert.
+ <br>
+</p>
+<p>returns: A list containing the items of the priority subqueues between
+ 	<code>MaxPriority</code> and <code>MinPriority</code>, inclusive, in priority queue order.
+ </p>
+</div><p>Convert a range of subqueues of a priority queue to a flat list of items.
+ </p>
+<p><b>See also:</b> <a href="#to_flatlist-1">to_flatlist/1</a>, <a href="#to_flatlist-2">to_flatlist/2</a>.</p>
 
 <h3 class="function"><a name="to_flatqueue-1">to_flatqueue/1</a></h3>
 <div class="spec">
 <p><tt>to_flatqueue(PrioQueue) -&gt; FlatQueue</tt>
-<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>FlatQueue = <a href="queue.html#type-queue">queue:queue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a priority queue to a flat queue of items.</p>
- 
-  The items in the result queue are ordered from the front
-  element of the highest priority to the rear element of
-  the lowest priority, which is the order in which they would
-  be returned by successive calls to <code>out/1</code>.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(term(), Item)</tt></li><li><tt>FlatQueue = <a href="queue.html#type-queue">queue:queue</a>(Item)</tt></li></ul></p>
+<p><tt>PrioQueue</tt>: The priority queue to convert.
+ <br>
+</p>
+<p>returns: A queue containing all the items of the priority
+ 	queue, in priority queue order.
+ </p>
+</div><p>Convert a priority queue to a flat queue of items.
+ </p>
+<p><b>See also:</b> <a href="#to_flatqueue-2">to_flatqueue/2</a>, <a href="#to_flatqueue-3">to_flatqueue/3</a>.</p>
 
 <h3 class="function"><a name="to_flatqueue-2">to_flatqueue/2</a></h3>
 <div class="spec">
 <p><tt>to_flatqueue(Priority, PrioQueue) -&gt; FlatQueue</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>FlatQueue = <a href="queue.html#type-queue">queue:queue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a subqueue of a priority queue to a flat queue of items.</p>
- 
-  The items in the result queue are ordered from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>FlatQueue = <a href="queue.html#type-queue">queue:queue</a>(Item)</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to convert.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to convert.
+ <br>
+</p>
+<p>returns: A queue containing the items of the given subqueue.
+ </p>
+</div><p>Convert a subqueue of a priority queue to a flat queue of items.
+ </p>
+<p><b>See also:</b> <a href="#to_flatqueue-1">to_flatqueue/1</a>, <a href="#to_flatqueue-3">to_flatqueue/3</a>.</p>
 
 <h3 class="function"><a name="to_flatqueue-3">to_flatqueue/3</a></h3>
 <div class="spec">
 <p><tt>to_flatqueue(MaxPriority, MinPriority, PrioQueue) -&gt; FlatQueue</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>FlatQueue = <a href="queue.html#type-queue">queue:queue()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a range of subqueues of a priority queue to a flat queue of items.</p>
- 
-  The items in the result queue are ordered from the front
-  element of the subqueue with highest priority to the rear element of
-  the subqueue with the lowest priority, which is the order in which they would
-  be returned by successive calls to <code>out/3</code>.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>FlatQueue = <a href="queue.html#type-queue">queue:queue</a>(Item)</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue to convert.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue to convert.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueues to convert.
+ <br>
+</p>
+<p>returns: A queue containing the items of the priority subqueues between
+ 	<code>MaxPriority</code> and <code>MinPriority</code>, inclusive, in priority queue order.
+ </p>
+</div><p>Convert a range of subqueues of a priority queue to a flat queue of items.
+ </p>
+<p><b>See also:</b> <a href="#to_flatqueue-1">to_flatqueue/1</a>, <a href="#to_flatqueue-2">to_flatqueue/2</a>.</p>
 
 <h3 class="function"><a name="to_list-1">to_list/1</a></h3>
 <div class="spec">
 <p><tt>to_list(PrioQueue) -&gt; PrioList</tt>
-<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioList = [{Priority, ItemList}]</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>ItemList = [Item]</tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a priority queue to a list of priorities and items.</p>
- 
-  The result list contains a tuple of the form <code>{Priority, Items}</code> for
-  each subqueue, in descending priority order. <code>Items</code> is a list of the
-  items in a subqueue, ordered from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioList = [{Priority, [Item]}]</tt></li></ul></p>
+<p><tt>PrioQueue</tt>: The priority queue to convert.
+ <br>
+</p>
+<p>returns: A list of tuples of the form <code>{Priority, Items}</code>, in priority
+ 	queue order, where <code>Priority</code> is the priority of a subqueue and
+ 	<code>Items</code> is a list of the items in that subqueue.
+ </p>
+</div><p>Convert a priority queue to a list of priorities and items.
+ </p>
+<p><b>See also:</b> <a href="#to_list-2">to_list/2</a>, <a href="#to_list-3">to_list/3</a>.</p>
 
 <h3 class="function"><a name="to_list-2">to_list/2</a></h3>
 <div class="spec">
 <p><tt>to_list(Priority, PrioQueue) -&gt; PrioList</tt>
-<ul class="definitions"><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioList = [{Priority, ItemList}]</tt></li><li><tt>ItemList = [Item]</tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a specific subqueue of the priority queue to a list of priorities and items.</p>
- 
-  The result list contains a tuple of the form <code>{Priority, Items}</code> for
-  each subqueue, in descending priority order. <code>Items</code> is a list of the
-  items in the subqueue, ordered from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>PrioList = [{Priority, [Item]}]</tt></li></ul></p>
+<p><tt>Priority</tt>: The priority subqueue to convert.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueue to convert.
+ <br>
+</p>
+<p>returns: A singleton list, with the only element being a tuple of the
+ 	form <code>{Priority, Items}</code>, where <code>Priority</code> is the priority of a
+ 	subqueue and <code>Items</code> is a list of the items in that subqueue.
+ </p>
+</div><p>Convert a specific subqueue of the priority queue to a list of priorities and items.
+ </p>
+<p><b>See also:</b> <a href="#to_list-1">to_list/1</a>, <a href="#to_list-3">to_list/3</a>.</p>
 
 <h3 class="function"><a name="to_list-3">to_list/3</a></h3>
 <div class="spec">
 <p><tt>to_list(MaxPriority, MinPriority, PrioQueue) -&gt; PrioList</tt>
-<ul class="definitions"><li><tt>MaxPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>MinPriority = <a href="#type-priority">priority()</a></tt></li><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue()</a></tt></li><li><tt>PrioList = [{Priority, ItemList}]</tt></li><li><tt>Priority = <a href="#type-priority">priority()</a></tt></li><li><tt>ItemList = [Item]</tt></li><li><tt>Item = <a href="#type-item">item()</a></tt></li></ul></p>
-<p> </p>
-</div><p><p>Convert a range of subqueues of the priority queue to a list of items.</p>
- 
-  The result list contains a tuple of the form <code>{Priority, Items}</code> for
-  each subqueue, in descending priority order. <code>Items</code> is a list of the
-  items in a subqueue, ordered from front to rear.</p>
+<ul class="definitions"><li><tt>PrioQueue = <a href="#type-prioqueue">prioqueue</a>(Priority, Item)</tt></li><li><tt>MaxPriority = Priority</tt></li><li><tt>MinPriority = Priority</tt></li><li><tt>PrioList = [{Priority, [Item]}]</tt></li></ul></p>
+<p><tt>MaxPriority</tt>: The maximum priority subqueue to convert.<br>
+<tt>MinPriority</tt>: The minimum priority subqueue to convert.<br>
+<tt>PrioQueue</tt>: The priority queue whose subqueues to convert.
+ <br>
+</p>
+<p>returns: A list of tuples of the form <code>{Priority, Items}</code>, in priority
+ 	queue order, where <code>Priority</code> is the priority of a subqueue and
+ 	<code>Items</code> is a list of the items in that subqueue.
+ </p>
+</div><p>Convert a range of subqueues of the priority queue to a list of items.
+ </p>
+<p><b>See also:</b> <a href="#to_list-1">to_list/1</a>, <a href="#to_list-2">to_list/2</a>.</p>
 <hr>
 
 <div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>

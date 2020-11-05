@@ -2,12 +2,89 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>The hnc_pq application</title>
+<title>hnc-pq - Erlang Priority Queues</title>
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc">
 </head>
 <body bgcolor="white">
 <div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
-<h1>The hnc_pq application</h1>
+<h1>hnc-pq - Erlang Priority Queues</h1>
+<p>Copyright © 2020 Maria Scott, Jan Uhlig</p>
+<p><b>Version:</b> 0.1.1</p>
+<p><b>Authors:</b> Maria Scott (<a href="mailto:maria-12648430@gmx.net"><tt>maria-12648430@gmx.net</tt></a>), Jan Uhlig (<a href="mailto:j.uhlig@mailingwork.de"><tt>j.uhlig@mailingwork.de</tt></a>).</p>
+<p><code>hnc-pq</code> is an implementation of priority queues, building on regular
+Erlang queues.</p>
+
+<p>Basically, a <code>hnc-pq</code> priority queue consists of a set of <em>priorities</em>,
+which can be any Erlang term, and <em>priority subqueues</em> for each
+priority.</p>
+
+<hr>
+
+<p>The order of priorities is determined by the order in which they appear in the
+priorities list given to ' hnc_pq:new/1', not by term ordering.</p>
+
+Example:
+<pre>hnc_pq:new([foo, 1, bar]).</pre><p>
+The priority queue created by this call has 3 priorities, with <code>foo</code> being the
+highest, <code>1</code> the second-highest, and <code>bar</code> being the lowest priority.</p>
+
+<hr>
+
+<p>While the usual <em>queue order</em> (front to rear) applies to the priority
+subqueues (therefore, referred to by the term <em>priority subqueue order</em>
+or just <em>subqueue order</em> in this context), the concept of priority
+queues neccesitates the definition of <em>priority queue order</em>, meaning
+that items in higher priority subqueues rank higher than items in lower
+priority subqueues, ie the <em>front</em> of a priority queue is the item at
+the front of the highest-priority non-empty subqueue, and the <em>rear</em>
+of a priority queue is the item at the rear of the lowest priority subqueue.</p>
+
+<p>All functions in which execution order may matter traverse in priority queue
+order.</p>
+
+<p>Example:</p>
+
+<p>Assume a priority queue with priorities <code>a</code>, <code>b</code> and <code>c</code> (in that order).</p>
+
+<p>If we enqueue items <code>b1</code> and <code>b2</code> with priority <code>b</code>, those two items are
+the respective front and rear items of the <code>b</code> subqueue, and at the same
+time the front and rear items of the priority queue.</p>
+
+<p>If we now enqueue items <code>a1</code> and <code>a2</code> with priority <code>a</code>, those items become
+the respective front and rear items of the <code>a</code> subqueue, but now the front
+item of the priority queue is the item <code>a1</code>, while <code>b2</code> stayed the rear
+item of the priority queue.</p>
+
+<p>Finally, if we enqueue two more items <code>c1</code> and <code>c2</code> with priority <code>c</code>,
+those two items become the respective front and rear items of the <code>c</code>
+subqueue, but now the rear item of the priority queue is the item <code>c2</code>,
+while <code>a1</code> stayed the front item of the priority queue.</p>
+
+<hr>
+
+Many functions come in three flavors. The examples given below assume a
+priority queue <code>PQ</code> with priorities <code>a</code>, <code>b</code>, and <code>c</code>, and items <code>a1</code>,
+<code>a2</code>, <code>b1</code>, <code>b2</code>, <code>c1</code>, and <code>c2</code> in them.
+<ul>
+  <li>Processing an entire priority queue.
+<pre>&gt; hnc_pq:out(PQ).
+{a1, ...}
+&gt; hnc_pq:out_r(PQ).
+{c2, ...}</pre>
+      </li>
+  <li>Processing only one specific priority subqueue.
+<pre>&gt; hnc_pq:out(b, PQ).
+{b1, ...}
+&gt; hnc_pq:out_r(b, PQ).
+{b2, ...}</pre>
+      </li>
+  <li>Processing a range of priority subqueues.
+<pre>&gt; hnc_pq:out(b, c, PQ).
+{b1, ...}
+&gt; hnc_pq:out_r(a, b, PQ).
+{b2, ...}</pre>
+      </li>
+</ul>
 
 <hr>
 <div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
