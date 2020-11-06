@@ -21,6 +21,10 @@
 %% @doc Erlang priority queues.
 -module(hnc_pq).
 
+-dialyzer(underspecs).
+-dialyzer(unknown).
+-dialyzer(unmatched_returns).
+
 -export([all/2, all/3, all/4]).
 -export([any/2, any/3, any/4]).
 -export([append/3]).
