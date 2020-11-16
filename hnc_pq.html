@@ -29,23 +29,21 @@
 
 <h2><a name="index">Function Index</a></h2>
 <table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#all-2">all/2</a></td><td>Check if all items of a priority queue
-  satisfy a predicate, checked in priority queue order.</td></tr>
+  satisfy a predicate.</td></tr>
 <tr><td valign="top"><a href="#all-3">all/3</a></td><td>Check if all items of a subqueue of a
-  priority queue satisfy a predicate, checked in priority queue order.</td></tr>
+  priority queue satisfy a predicate.</td></tr>
 <tr><td valign="top"><a href="#all-4">all/4</a></td><td>Check if all items of a range of subqueues of a
-  priority queue satisfy a predicate, checked in priority queue order.</td></tr>
+  priority queue satisfy a predicate.</td></tr>
 <tr><td valign="top"><a href="#any-2">any/2</a></td><td>Check if at least one item of a priority queue
-  satisfies a predicate condition, checked in priority queue order.</td></tr>
+  satisfies a predicate.</td></tr>
 <tr><td valign="top"><a href="#any-3">any/3</a></td><td>Check if at least one item of a subqueue of a
-  priority queue satisfies a predicate, checked in priority queue order.</td></tr>
+  priority queue satisfies a predicate.</td></tr>
 <tr><td valign="top"><a href="#any-4">any/4</a></td><td>Check if at least one item of a range of subqueues of a
-  priority queue satisfies a predicate, checked in priority queue order.</td></tr>
+  priority queue satisfies a predicate.</td></tr>
 <tr><td valign="top"><a href="#append-3">append/3</a></td><td>Append to an existing subqueue or create a new subqueue in a priority queue.</td></tr>
-<tr><td valign="top"><a href="#filter-2">filter/2</a></td><td>Filter items of a priority queue, in priority queue order.</td></tr>
-<tr><td valign="top"><a href="#filter-3">filter/3</a></td><td>Filter items of a subqueue of a priority queue, in priority
-  queue order.</td></tr>
-<tr><td valign="top"><a href="#filter-4">filter/4</a></td><td>Filter items of a range of subqueues of a priority queue, in
- 	priority queue order.</td></tr>
+<tr><td valign="top"><a href="#filter-2">filter/2</a></td><td>Filter items of a priority queue.</td></tr>
+<tr><td valign="top"><a href="#filter-3">filter/3</a></td><td>Filter items of a subqueue of a priority queue.</td></tr>
+<tr><td valign="top"><a href="#filter-4">filter/4</a></td><td>Filter items of a range of subqueues of a priority queue.</td></tr>
 <tr><td valign="top"><a href="#fold-3">fold/3</a></td><td>Fold a function over a priority queue, in priority queue order.</td></tr>
 <tr><td valign="top"><a href="#fold-4">fold/4</a></td><td>Fold a function over a subqueue of a priority queue, in priority
  	queue order.</td></tr>
@@ -114,7 +112,7 @@
  	condition, otherwise <code>false</code>.
  </p>
 </div><p>Check if all items of a priority queue
-  satisfy a predicate, checked in priority queue order.
+  satisfy a predicate.
  </p>
 <p><b>See also:</b> <a href="#all-3">all/3</a>, <a href="#all-4">all/4</a>.</p>
 
@@ -134,7 +132,7 @@
  	condition, otherwise <code>false</code>.
  </p>
 </div><p>Check if all items of a subqueue of a
-  priority queue satisfy a predicate, checked in priority queue order.
+  priority queue satisfy a predicate.
  </p>
 <p><b>See also:</b> <a href="#all-2">all/2</a>, <a href="#all-4">all/4</a>.</p>
 
@@ -155,7 +153,7 @@
  	<code>MinPriority</code> satisfy the predicate condition, otherwise <code>false</code>.
  </p>
 </div><p>Check if all items of a range of subqueues of a
-  priority queue satisfy a predicate, checked in priority queue order.
+  priority queue satisfy a predicate.
  </p>
 <p><b>See also:</b> <a href="#all-2">all/2</a>, <a href="#all-3">all/3</a>.</p>
 
@@ -174,7 +172,7 @@
  	condition, otherwise <code>false</code>.
  </p>
 </div><p>Check if at least one item of a priority queue
-  satisfies a predicate condition, checked in priority queue order.
+  satisfies a predicate.
  </p>
 <p><b>See also:</b> <a href="#any-3">any/3</a>, <a href="#any-4">any/4</a>.</p>
 
@@ -194,7 +192,7 @@
  	condition, otherwise <code>false</code>.
  </p>
 </div><p>Check if at least one item of a subqueue of a
-  priority queue satisfies a predicate, checked in priority queue order.
+  priority queue satisfies a predicate.
  </p>
 <p><b>See also:</b> <a href="#any-2">any/2</a>, <a href="#any-4">any/4</a>.</p>
 
@@ -215,7 +213,7 @@
  	<code>MinPriority</code> satisfies the predicate condition, otherwise <code>false</code>.
  </p>
 </div><p>Check if at least one item of a range of subqueues of a
-  priority queue satisfies a predicate, checked in priority queue order.
+  priority queue satisfies a predicate.
  </p>
 <p><b>See also:</b> <a href="#any-2">any/2</a>, <a href="#any-3">any/3</a>.</p>
 
@@ -252,7 +250,7 @@
 </p>
 <p>returns: A new priority queue, filtered via <code>FilterFun</code>.
  </p>
-</div><p>Filter items of a priority queue, in priority queue order.
+</div><p>Filter items of a priority queue.
  </p>
 <p><b>See also:</b> <a href="#filter-3">filter/3</a>, <a href="#filter-4">filter/4</a>.</p>
 
@@ -271,8 +269,7 @@
 <p>returns: A new priority queue with the given subqueue filtered
  	via <code>FilterFun</code>.
  </p>
-</div><p>Filter items of a subqueue of a priority queue, in priority
-  queue order.
+</div><p>Filter items of a subqueue of a priority queue.
  </p>
 <p><b>See also:</b> <a href="#filter-2">filter/2</a>, <a href="#filter-4">filter/4</a>.</p>
 
@@ -292,8 +289,7 @@
 <p>returns: A new priority queue with the subqueues between <code>MaxPriority</code>
  	and <code>MinPriority</code>, inclusive, filtered via <code>FilterFun</code>.
  </p>
-</div><p>Filter items of a range of subqueues of a priority queue, in
- 	priority queue order.
+</div><p>Filter items of a range of subqueues of a priority queue.
  </p>
 <p><b>See also:</b> <a href="#filter-2">filter/2</a>, <a href="#filter-3">filter/3</a>.</p>
 
