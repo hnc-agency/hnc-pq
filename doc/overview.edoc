@@ -33,9 +33,6 @@ priority subqueues, ie the <em>front</em> of a priority queue is the item at
 the front of the highest-priority non-empty subqueue, and the <em>rear</em>
 of a priority queue is the item at the rear of the lowest priority subqueue.
 
-All functions in which execution order may matter traverse in priority queue
-order.
-
 Example:
 
 Assume a priority queue with priorities `a', `b' and `c' (in that order).

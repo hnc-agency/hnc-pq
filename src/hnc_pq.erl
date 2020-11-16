@@ -1250,7 +1250,7 @@ join(PQ0, PQ1) ->
 %% filter/2,3,4
 %% ----------------------------------------------------------------------------
 
-%% @doc Filter items of a priority queue, in priority queue order.
+%% @doc Filter items of a priority queue.
 %%
 %% @param FilterFun The filter function, which takes two arguments,
 %%	the priority of the subqueue being filtered, and an item.
@@ -1271,8 +1271,7 @@ filter(Fun, PQ=#pq{p=Prios}) when is_function(Fun, 2) ->
 filter(Fun, PQ) ->
 	error(badarg, [Fun, PQ]).
 
-%% @doc Filter items of a subqueue of a priority queue, in priority
-%% queue order.
+%% @doc Filter items of a subqueue of a priority queue.
 %%
 %% @param Priority The priority subqueue to filter.
 %% @param FilterFun The filter function, which takes two arguments,
@@ -1295,8 +1294,7 @@ filter(Prio, Fun, PQ=#pq{q=Queues}) when is_function(Fun, 2), is_map_key(Prio, Q
 filter(Prio, Fun, PQ) ->
 	error(badarg, [Prio, Fun, PQ]).
 
-%% @doc Filter items of a range of subqueues of a priority queue, in
-%%	priority queue order.
+%% @doc Filter items of a range of subqueues of a priority queue.
 %%
 %% @param MaxPriority The maximum priority subqueue to filter.
 %% @param MinPriority The minimum priority subqueue to filter.
@@ -1468,7 +1466,7 @@ do_fold([Prio|Range], Fun, Acc0, PQ=#pq{q=Queues}) ->
 %% ----------------------------------------------------------------------------
 
 %% @doc Check if at least one item of a priority queue
-%% satisfies a predicate condition, checked in priority queue order.
+%% satisfies a predicate.
 %%
 %% @param PredicateFun The predicate function, which takes two arguments,
 %%	the priority of the subqueue being checked, and an item. It must
@@ -1490,7 +1488,7 @@ any(Fun, PQ) ->
 	error(badarg, [Fun, PQ]).
 
 %% @doc Check if at least one item of a subqueue of a
-%% priority queue satisfies a predicate, checked in priority queue order.
+%% priority queue satisfies a predicate.
 %%
 %% @param Priority The priority subqueue to check.
 %% @param PredicateFun The predicate function, which takes two arguments,
@@ -1513,7 +1511,7 @@ any(Prio, Fun, PQ) ->
 	error(badarg, [Prio, Fun, PQ]).
 
 %% @doc Check if at least one item of a range of subqueues of a
-%% priority queue satisfies a predicate, checked in priority queue order.
+%% priority queue satisfies a predicate.
 %%
 %% @param MaxPriority The maximum priority subqueue to check.
 %% @param MinPriority The minimum priority subqueue to check.
@@ -1569,7 +1567,7 @@ do_any([Prio|Range], Fun, PQ=#pq{q=Queues}) ->
 %% ----------------------------------------------------------------------------
 
 %% @doc Check if all items of a priority queue
-%% satisfy a predicate, checked in priority queue order.
+%% satisfy a predicate.
 %%
 %% @param PredicateFun The predicate function, which takes two arguments,
 %%	the priority of the subqueue being checked, and an item. It must
@@ -1591,7 +1589,7 @@ all(Fun, PQ) ->
 	error(badarg, [Fun, PQ]).
 
 %% @doc Check if all items of a subqueue of a
-%% priority queue satisfy a predicate, checked in priority queue order.
+%% priority queue satisfy a predicate.
 %%
 %% @param Priority The priority subqueue to check.
 %% @param PredicateFun The predicate function, which takes two arguments,
@@ -1614,7 +1612,7 @@ all(Prio, Fun, PQ) ->
 	error(badarg, [Prio, Fun, PQ]).
 
 %% @doc Check if all items of a range of subqueues of a
-%% priority queue satisfy a predicate, checked in priority queue order.
+%% priority queue satisfy a predicate.
 %%
 %% @param MaxPriority The maximum priority subqueue to check.
 %% @param MinPriority The minimum priority subqueue to check.
