@@ -1,5 +1,5 @@
-%% Copyright (c) 2020, Maria Scott <maria-12648430@gmx.net>
-%% Copyright (c) 2020, Jan Uhlig <j.uhlig@mailingwork.de>
+%% Copyright (c) 2020, Maria Scott <maria-12648430@hnc-agency.org>
+%% Copyright (c) 2020, Jan Uhlig <juhlig@hnc-agency.org>
 %%
 %% Permission to use, copy, modify, and/or distribute this software for any
 %% purpose with or without fee is hereby granted, provided that the above
@@ -13,10 +13,10 @@
 %% ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 %% OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-%% @author Maria Scott <maria-12648430@gmx.net>
-%% @author Jan Uhlig <j.uhlig@mailingwork.de>
-%% @copyright Maria Scott, Jan Uhlig
-%% @version 0.1.1
+%% @author Maria Scott <maria-12648430@hnc-agency.org>
+%% @author Jan Uhlig <juhlig@hnc-agency.org>
+%% @copyright 2020 Maria Scott, Jan Uhlig
+%% @version 0.1.2
 
 %% @doc Erlang priority queues.
 -module(hnc_pq).

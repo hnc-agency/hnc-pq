@@ -46,7 +46,7 @@ empty=hnc_pq:out(PQ6).
 
 ```
 DEPS = hnc_pq
-dep_hnc_pq = git https://github.com/hnc-agency/hnc-pq 0.1.1
+dep_hnc_pq = git https://github.com/hnc-agency/hnc-pq 0.1.2
 ```
 
 ### `rebar3`
@@ -54,7 +54,7 @@ dep_hnc_pq = git https://github.com/hnc-agency/hnc-pq 0.1.1
 ```
 {deps, [
     {hnc, ".*", {git, "https://github.com/hnc-agency/hnc-pq",
-                   {tag, "0.1.1"}}}
+                   {tag, "0.1.2"}}}
 ]}.
 ```
 
