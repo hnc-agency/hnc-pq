@@ -1,7 +1,7 @@
 @author Maria Scott <maria-12648430@hnc-agency.org>
 @author Jan Uhlig <juhlig@hnc-agency.org>
-@copyright 2020 Maria Scott, Jan Uhlig
-@version 0.1.2
+@copyright 2020-2021 Maria Scott, Jan Uhlig
+@version {@vsn}
 @title hnc-pq - Erlang Priority Queues
 @doc `hnc-pq' is an implementation of priority queues, building on regular
 Erlang queues.

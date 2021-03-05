@@ -1,5 +1,5 @@
-%% Copyright (c) 2020, Maria Scott <maria-12648430@hnc-agency.org>
-%% Copyright (c) 2020, Jan Uhlig <juhlig@hnc-agency.org>
+%% Copyright (c) 2020-2021, Maria Scott <maria-12648430@hnc-agency.org>
+%% Copyright (c) 2020-2021, Jan Uhlig <juhlig@hnc-agency.org>
 %%
 %% Permission to use, copy, modify, and/or distribute this software for any
 %% purpose with or without fee is hereby granted, provided that the above
@@ -15,8 +15,8 @@
 
 %% @author Maria Scott <maria-12648430@hnc-agency.org>
 %% @author Jan Uhlig <juhlig@hnc-agency.org>
-%% @copyright 2020 Maria Scott, Jan Uhlig
-%% @version 0.1.2
+%% @copyright 2020-2021 Maria Scott, Jan Uhlig
+%% @version {@vsn}
 
 %% @doc Erlang priority queues.
 -module(hnc_pq).
@@ -24,6 +24,12 @@
 -dialyzer(underspecs).
 -dialyzer(unknown).
 -dialyzer(unmatched_returns).
+
+-ifdef(OTP_RELEASE).
+-if(?OTP_RELEASE < 24).
+-define(FALLBACK_MODE,).
+-endif.
+-endif.
 
 -export([all/2, all/3, all/4]).
 -export([any/2, any/3, any/4]).
@@ -1445,12 +1451,10 @@ fold(MaxPrio, MinPrio, Fun, Acc0, PQ) ->
 
 %% helper
 
+-ifdef(FALLBACK_MODE).
 do_fold([], _, Acc, _) ->
 	Acc;
 do_fold([Prio|Range], Fun, Acc0, PQ=#pq{q=Queues}) ->
-	%% TODO: Exchange for queue:fold/3 when
-	%% https://github.com/erlang/otp/pull/2791
-	%% is merged and released.
 	Acc1=lists:foldl(
 		fun (Item, AccIn) ->
 			Fun(Prio, Item, AccIn)
@@ -1459,6 +1463,19 @@ do_fold([Prio|Range], Fun, Acc0, PQ=#pq{q=Queues}) ->
 		queue:to_list(maps:get(Prio, Queues))
 	),
 	do_fold(Range, Fun, Acc1, PQ).
+-else.
+do_fold([], _, Acc, _) ->
+	Acc;
+do_fold([Prio|Range], Fun, Acc0, PQ=#pq{q=Queues}) ->
+	Acc1=queue:fold(
+		fun (Item, AccIn) ->
+			Fun(Prio, Item, AccIn)
+		end,
+		Acc0,
+		maps:get(Prio, Queues)
+	),
+	do_fold(Range, Fun, Acc1, PQ).
+-endif.
 
 
 %% ----------------------------------------------------------------------------
@@ -1543,11 +1560,11 @@ any(MaxPrio, MinPrio, Fun, PQ) ->
 
 %% helper
 
+-ifdef(FALLBACK_MODE).
 do_any([], _, _) ->
 	false;
 do_any([Prio|Range], Fun, PQ=#pq{q=Queues}) ->
 	case
-		%% TODO: Replace when queue:any/2 is introduced.
 		lists:any(
 			fun (Item) ->
 				Fun(Prio, Item)
@@ -1560,6 +1577,24 @@ do_any([Prio|Range], Fun, PQ=#pq{q=Queues}) ->
 		false ->
 			do_any(Range, Fun, PQ)
 	end.
+-else.
+do_any([], _, _) ->
+	false;
+do_any([Prio|Range], Fun, PQ=#pq{q=Queues}) ->
+	case
+		queue:any(
+			fun (Item) ->
+				Fun(Prio, Item)
+			end,
+			maps:get(Prio, Queues)
+		)
+	of
+		true ->
+			true;
+		false ->
+			do_any(Range, Fun, PQ)
+	end.
+-endif.
 
 
 %% ----------------------------------------------------------------------------
@@ -1644,11 +1679,11 @@ all(MaxPrio, MinPrio, Fun, PQ) ->
 
 %% helper
 
+-ifdef(FALLBACK_MODE).
 do_all([], _, _) ->
 	true;
 do_all([Prio|Range], Fun, PQ=#pq{q=Queues}) ->
 	case
-		%% TODO: Replace when queue:all/2 is introduced.
 		lists:all(
 			fun (Item) ->
 				Fun(Prio, Item)
@@ -1661,6 +1696,24 @@ do_all([Prio|Range], Fun, PQ=#pq{q=Queues}) ->
 		true ->
 			do_all(Range, Fun, PQ)
 	end.
+-else.
+do_all([], _, _) ->
+	true;
+do_all([Prio|Range], Fun, PQ=#pq{q=Queues}) ->
+	case
+		queue:all(
+			fun (Item) ->
+				Fun(Prio, Item)
+			end,
+			maps:get(Prio, Queues)
+		)
+	of
+		false ->
+			false;
+		true ->
+			do_all(Range, Fun, PQ)
+	end.
+-endif.
 
 %% ============================================================================
 %% INTERNAL
